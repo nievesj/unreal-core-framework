@@ -5,7 +5,7 @@ Unreal Engine 5.3 and beyond.
 
 What is Unreal Core Framework?
 ---
-This is a Plugin for Unreal Engine 5.3 and it's purpose is to help speed up development providing a set of systems to speed up prototype development. To do this we leverage the usage of SubSystems to add more functionality to the engine.
+This is a Plugin for Unreal Engine 5.3 and it's purpose is to help speed up development by providing a set of systems to help with prototyping and development. To do this we leverage the usage of SubSystems to add more functionality to the engine.
 
 * Planned Features
 	* UI SubSystem - Centralized place where menus are created and tracked
