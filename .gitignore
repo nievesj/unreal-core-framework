@@ -166,7 +166,9 @@
 !/Engine/Extras/VirtualProduction/EpicStageApp/**/*.dart
 
 # Ignore the automatically created mono symlink
-/Engine/Binaries/ThirdParty/Mono/Mac/bin/mono
+/Engine/Binaries/ThirdParty/Mono/Mac/bin/
+
+/Binaries/
 
 # Add exceptions for Linux Mono binaries needed to run GitDependencies.exe.
 !/Engine/Binaries/ThirdParty/Mono/Linux/bin/*
