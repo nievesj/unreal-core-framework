@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SpectatorPawn.h"
+
 #include "CoreSpectatorPawn.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class UNREALCOREFRAMEWORK_API ACoreSpectatorPawn : public ASpectatorPawn
 {
 	GENERATED_BODY()
-	
 };

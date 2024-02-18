@@ -37,10 +37,7 @@ int32 UBUITween::Clear(UWidget* pInWidget)
 {
 	int32 NumRemoved = 0;
 
-	auto DoesTweenMatchWidgetFn = [pInWidget](const FBUITweenInstance& CurTweenInstance) -> bool
-	{
-		return (CurTweenInstance.GetWidget().IsValid() && CurTweenInstance.GetWidget() == pInWidget);
-	};
+	auto DoesTweenMatchWidgetFn = [pInWidget](const FBUITweenInstance& CurTweenInstance) -> bool { return (CurTweenInstance.GetWidget().IsValid() && CurTweenInstance.GetWidget() == pInWidget); };
 
 	NumRemoved += ActiveInstances.RemoveAll(DoesTweenMatchWidgetFn);
 	NumRemoved += InstancesToAdd.RemoveAll(DoesTweenMatchWidgetFn);

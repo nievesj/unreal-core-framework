@@ -2,14 +2,15 @@
 
 #pragma once
 
+#include "BladeableWidgetInterface.h"
 #include "CoreMinimal.h"
 #include "CoreWidget.h"
-#include "BladeableWidgetInterface.h"
+
 #include "CoreBlade.generated.h"
 
 class UUISubsystem;
 
-UCLASS(Abstract, editinlinenew, BlueprintType, Blueprintable, meta=( DontUseGenericSpawnObject="True", DisableNativeTick))
+UCLASS(Abstract, editinlinenew, BlueprintType, Blueprintable, meta = (DontUseGenericSpawnObject = "True", DisableNativeTick))
 class UNREALCOREFRAMEWORK_API UCoreBlade : public UCoreWidget, public IBladeableWidgetInterface
 {
 public:

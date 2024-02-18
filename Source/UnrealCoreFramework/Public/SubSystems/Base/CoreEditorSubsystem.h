@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "EditorSubsystem.h"
+
 #include "CoreEditorSubsystem.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogEditorSubsystem, Log, All);
@@ -23,9 +24,12 @@ UCLASS(Abstract)
 class UNREALCOREFRAMEWORK_API UCoreEditorSubsystem : public UEditorSubsystem
 {
 	GENERATED_BODY()
-	
+
 public:
-	virtual bool ShouldCreateSubsystem(UObject* Outer) const { return true; }
+	virtual bool ShouldCreateSubsystem(UObject* Outer) const
+	{
+		return true;
+	}
 
 	/** Implement this for initialization of instances of the system */
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;

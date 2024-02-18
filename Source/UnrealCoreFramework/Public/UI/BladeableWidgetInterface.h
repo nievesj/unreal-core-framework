@@ -8,7 +8,7 @@
 #include "BladeableWidgetInterface.generated.h"
 
 /**
- * 
+ *
  */
 UINTERFACE(MinimalAPI)
 class UBladeableWidgetInterface : public UInterface

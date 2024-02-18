@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/LocalPlayerSubsystem.h"
+
 #include "CoreLocalPlayerSubsystem.generated.h"
 
 /**
@@ -17,9 +18,12 @@ UCLASS(Abstract)
 class UNREALCOREFRAMEWORK_API UCoreLocalPlayerSubsystem : public ULocalPlayerSubsystem
 {
 	GENERATED_BODY()
-	
+
 public:
-	virtual bool ShouldCreateSubsystem(UObject* Outer) const { return true; }
+	virtual bool ShouldCreateSubsystem(UObject* Outer) const
+	{
+		return true;
+	}
 
 	virtual void PreInitialize();
 

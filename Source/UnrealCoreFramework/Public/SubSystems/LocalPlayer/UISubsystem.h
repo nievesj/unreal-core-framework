@@ -40,7 +40,7 @@ public:
 private:
 	UPROPERTY(Transient)
 	TArray<IBladeableWidgetInterface*> CoreWidgetsOpen;
-	
+
 	UPROPERTY(Transient)
 	UCoreBlade* MainMenuBlade;
 

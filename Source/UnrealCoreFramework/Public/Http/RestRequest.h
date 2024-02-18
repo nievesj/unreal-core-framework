@@ -3,10 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
 #include "HttpModule.h"
 #include "Interfaces/IHttpRequest.h"
 #include "Interfaces/IHttpResponse.h"
+#include "UObject/NoExportTypes.h"
+
 #include "RestRequest.generated.h"
 
 UENUM(BlueprintType)
@@ -33,27 +34,25 @@ private:
 
 	UFUNCTION(BlueprintCallable, Category = Http)
 	void SendHttpRequest(const FString& Url, const FString& RequestContent);
-	
+
 	/*Called when the server has responded to our http request*/
 	void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
-	
 	int32 SendHTTPRequest(const FString& InURL, const FString& InVerb, const FString& InMessage, const TMap<FString, FString>& InHeaders);
 	void OnHttpRequestCompletedImpl(FHttpRequestPtr InRequest, FHttpResponsePtr InResponse, bool bWasSuccessful);
 
 	UPROPERTY(BlueprintAssignable, Category = "Movie Render Pipeline")
 	FHttpResponseRecieved HTTPResponseRecievedDelegate;
-	
+
 	struct FOutstandingRequest
 	{
-		FOutstandingRequest()
-			: RequestIndex(-1)
-			, Request(nullptr)
-		{}
+		FOutstandingRequest() : RequestIndex(-1), Request(nullptr)
+		{
+		}
 
 		int32 RequestIndex;
 		FHttpRequestPtr Request;
 	};
-	
+
 	TArray<FOutstandingRequest> OutstandingRequests;
 };

@@ -6,8 +6,7 @@
 #include "Game/Base/CoreGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 
-ACoreGameState::ACoreGameState(const FObjectInitializer& ObjectInitializer)
-: Super(ObjectInitializer)
+ACoreGameState::ACoreGameState(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	SetRemoteRoleForBackwardsCompat(ROLE_SimulatedProxy);
 	bReplicates = true;
@@ -36,7 +35,7 @@ void ACoreGameState::PostInitializeComponents()
 void ACoreGameState::ReceivedGameModeClass()
 {
 	// Tell each PlayerController that the Game class is here
-	for( FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator )
+	for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
 	{
 		APlayerController* const PlayerController = Iterator->Get();
 		if (PlayerController)
@@ -48,10 +47,8 @@ void ACoreGameState::ReceivedGameModeClass()
 
 void ACoreGameState::OnComponentsInitialized()
 {
-	if(UGameInstance* pGameInstance = UGameplayStatics::GetGameInstance(GetWorld()))
+	if (UGameInstance* pGameInstance = UGameplayStatics::GetGameInstance(GetWorld()))
 	{
 		UCoreGameInstance* pCoreGameInstance = Cast<UCoreGameInstance>(pGameInstance);
 	}
 }
-
-

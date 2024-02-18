@@ -1,9 +1,10 @@
 #pragma once
 
 #include "BUIEasing.h"
-#include "Components/Widget.h"
 #include "BUITweenInstance.h"
+#include "Components/Widget.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+
 #include "BUITween.generated.h"
 
 UCLASS()
@@ -35,7 +36,6 @@ protected:
 	// We delay adding until the end of an update so we don't add to ActiveInstances within our update loop
 	static TArray<FBUITweenInstance> InstancesToAdd;
 };
-
 
 UCLASS(BlueprintType)
 class BUITWEEN_API UBUIParamChain : public UObject

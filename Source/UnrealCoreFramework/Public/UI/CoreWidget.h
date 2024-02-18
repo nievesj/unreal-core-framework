@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "CoreMinimal.h"
 
 #include "CoreWidget.generated.h"
 
@@ -69,14 +69,12 @@ struct FWidgetAnimationOptions
 	bool bRestoreState = false;
 };
 
-
-UCLASS(Abstract, editinlinenew, BlueprintType, Blueprintable, meta=( DontUseGenericSpawnObject="True", DisableNativeTick))
+UCLASS(Abstract, editinlinenew, BlueprintType, Blueprintable, meta = (DontUseGenericSpawnObject = "True", DisableNativeTick))
 class UNREALCOREFRAMEWORK_API UCoreWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	
 	UFUNCTION(BlueprintCallable, Category = CoreWidget)
 	void Show();
 
@@ -92,7 +90,7 @@ public:
 protected:
 	void PlayTweenTransition(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode);
 	void PlayWidgetAnimation(UWidgetAnimation* Anim, const FWidgetAnimationOptions& WidgetAnimationOptions, const EWidgetTransitionMode WidgetTransitionMode);
-	
+
 	void Scale(FVector2D Start, FVector2D End, const EWidgetTransitionMode WidgetTransitionMode);
 	void Move(FVector2D Start, FVector2D End, const EWidgetTransitionMode WidgetTransitionMode);
 	void Fade(const EWidgetTransitionMode WidgetTransitionMode);

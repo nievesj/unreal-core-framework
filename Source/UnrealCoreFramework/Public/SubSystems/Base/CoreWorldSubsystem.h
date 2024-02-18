@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/WorldSubsystem.h"
+
 #include "CoreWorldSubsystem.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogCoreWorldSubsystem, Log, All);
@@ -17,13 +18,12 @@ UCLASS(Abstract)
 class UNREALCOREFRAMEWORK_API UCoreWorldSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
-	
-public:
 
+public:
 	virtual void PreInitialize();
 
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
-	
+
 	/** Called once all UWorldSubsystems have been initialized */
 	virtual void PostInitialize() override;
 

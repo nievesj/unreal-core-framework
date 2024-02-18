@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "SubSystems/Base/CoreAudioEngineSubSystem.h"
-#include "AudioSubsystem.generated.h"
 
+#include "AudioSubsystem.generated.h"
 
 UCLASS()
 class UNREALCOREFRAMEWORK_API UAudioSubsystem : public UCoreAudioEngineSubSystem
 {
 	GENERATED_BODY()
-	
+
 private:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 

@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "SubSystems/Base/CoreWorldSubsystem.h"
 
 DEFINE_LOG_CATEGORY(LogCoreWorldSubsystem);
@@ -44,11 +43,17 @@ void UCoreWorldSubsystem::Deinitialize()
 
 TFuture<void> UCoreWorldSubsystem::SlowTaskAsync()
 {
-	return Async(EAsyncExecution::TaskGraphMainThread,[]()
-	{
-		//ExecuteSlowTask();
-	}).Then([](auto Future)
-	{
-		//DoSomethingElseAfterward();
-	});
+	return Async(
+			   EAsyncExecution::TaskGraphMainThread,
+			   []()
+			   {
+				   // ExecuteSlowTask();
+			   }
+	)
+		.Then(
+			[](auto Future)
+			{
+				// DoSomethingElseAfterward();
+			}
+		);
 }

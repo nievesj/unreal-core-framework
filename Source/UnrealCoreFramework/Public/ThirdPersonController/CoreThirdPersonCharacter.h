@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Game/Base/CoreCharacter.h"
+
 #include "CoreThirdPersonCharacter.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class UNREALCOREFRAMEWORK_API ACoreThirdPersonCharacter : public ACoreCharacter
@@ -20,28 +21,29 @@ class UNREALCOREFRAMEWORK_API ACoreThirdPersonCharacter : public ACoreCharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
 public:
 	ACoreThirdPersonCharacter();
-	
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Input)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input)
 	float TurnRateGamepad;
 
-protected:	
+protected:
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
 
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
-	/** 
-	 * Called via input to turn at a given rate. 
+	/**
+	 * Called via input to turn at a given rate.
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void TurnAtRate(float Rate);
 
 	/**
-	 * Called via input to turn look up/down at a given rate. 
+	 * Called via input to turn look up/down at a given rate.
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
@@ -57,9 +59,15 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
 
-	public:
+public:
 	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const
+	{
+		return CameraBoom;
+	}
 	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	FORCEINLINE class UCameraComponent* GetFollowCamera() const
+	{
+		return FollowCamera;
+	}
 };

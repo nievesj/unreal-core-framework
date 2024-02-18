@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
+
 #include "CorePlayerState.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class UNREALCOREFRAMEWORK_API ACorePlayerState : public APlayerState
 {
 	GENERATED_BODY()
-
 };

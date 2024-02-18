@@ -6,6 +6,7 @@
 #include "Engine/DeveloperSettings.h"
 #include "GameFramework/GameUserSettings.h"
 #include "UI/CoreBlade.h"
+
 #include "UnrealCoreFrameworkSettings.generated.h"
 
 UCLASS(config = Engine, defaultconfig, meta = (DisplayName = "Unreal Core Framework"))
@@ -14,7 +15,6 @@ class UNREALCOREFRAMEWORK_API UUnrealCoreFrameworkSettings : public UDeveloperSe
 	GENERATED_BODY()
 
 public:
-
 	static const UUnrealCoreFrameworkSettings* GetSettings()
 	{
 		return GetDefault<UUnrealCoreFrameworkSettings>();
@@ -22,7 +22,7 @@ public:
 
 	UPROPERTY(EditAnywhere, config, BlueprintReadWrite, Category = UnrealCoreFrameworkSettings, Meta = (DisplayName = "Main Menu Blade"))
 	TSubclassOf<UCoreBlade> MainMenuBlade;
-	
+
 	UPROPERTY(EditAnywhere, config, BlueprintReadWrite, Category = UnrealCoreFrameworkSettings, Meta = (DisplayName = "Main HUD Blade"))
 	TSubclassOf<UCoreBlade> MainHUDBlade;
 

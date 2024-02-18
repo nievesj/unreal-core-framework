@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/WorldSettings.h"
+
 #include "CoreWorldSettings.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class UNREALCOREFRAMEWORK_API ACoreWorldSettings : public AWorldSettings
 {
 	GENERATED_BODY()
-	
 };

@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "SubSystems/LocalPlayer/UISubsystem.h"
+
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "Settings/UnrealCoreFrameworkSettings.h"
@@ -17,19 +17,19 @@ UCoreWidget* UUISubsystem::CreateBlade(APlayerController* Owner, TSubclassOf<UCo
 		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Owner is null"));
 		return nullptr;
 	}
-	
+
 	if (!IsValid(BladeClass))
 	{
 		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("BladeClass is not valid"));
 		return nullptr;
 	}
 
-	if(const UClass* Class = BladeClass.Get(); !Class->ImplementsInterface(UBladeableWidgetInterface::StaticClass()))
+	if (const UClass* Class = BladeClass.Get(); !Class->ImplementsInterface(UBladeableWidgetInterface::StaticClass()))
 	{
 		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Parameter Blade does not implement Interface UBladeableWidgetInterface."));
 		return nullptr;
 	}
-	
+
 	if (UCoreWidget* Blade = CreateWidget<UCoreWidget>(Owner, BladeClass))
 	{
 		Blade->AddToViewport();
@@ -84,65 +84,65 @@ void UUISubsystem::CreateMainBlade(ECoreMainBladeType MainBladeType)
 
 	switch (MainBladeType)
 	{
-	case ECoreMainBladeType::MainMenu:
-		if (MainMenuBlade)
-		{
-			UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("MainMenuBlade is already open. Ignoring."));
-		}
-		else
-		{
-			if (MainHUDBlade)
+		case ECoreMainBladeType::MainMenu:
+			if (MainMenuBlade)
 			{
-				RemoveBlade(MainHUDBlade);
-				MainHUDBlade = nullptr;
-			}
-			if (PauseMenuBlade)
-			{
-				RemoveBlade(PauseMenuBlade);
-				PauseMenuBlade = nullptr;
-			}
-
-			if(IsValid(Settings->MainMenuBlade))
-			{
-				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("valid."));
+				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("MainMenuBlade is already open. Ignoring."));
 			}
 			else
 			{
-				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("invalid."));
-			}
+				if (MainHUDBlade)
+				{
+					RemoveBlade(MainHUDBlade);
+					MainHUDBlade = nullptr;
+				}
+				if (PauseMenuBlade)
+				{
+					RemoveBlade(PauseMenuBlade);
+					PauseMenuBlade = nullptr;
+				}
 
-			if (UCoreWidget* Blade = CreateBlade(PC, *Settings->MainMenuBlade))
-			{
-				MainMenuBlade = Cast<UCoreBlade>(Blade);
+				if (IsValid(Settings->MainMenuBlade))
+				{
+					UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("valid."));
+				}
+				else
+				{
+					UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("invalid."));
+				}
+
+				if (UCoreWidget* Blade = CreateBlade(PC, *Settings->MainMenuBlade))
+				{
+					MainMenuBlade = Cast<UCoreBlade>(Blade);
+				}
 			}
-		}
-		break;
-	case ECoreMainBladeType::MainHUD:
-		if (MainMenuBlade)
-		{
-			UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("MainHUDBlade is already open. Ignoring."));
-		}
-		else
-		{
-			if (UCoreWidget* Blade = CreateBlade(PC, Settings->MainHUDBlade))
+			break;
+		case ECoreMainBladeType::MainHUD:
+			if (MainMenuBlade)
 			{
-				MainHUDBlade = Cast<UCoreBlade>(Blade);
+				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("MainHUDBlade is already open. Ignoring."));
 			}
-		}
-		break;
-	case ECoreMainBladeType::PauseMenu:
-		if (PauseMenuBlade)
-		{
-			UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("PauseMenuBlade is already open. Ignoring."));
-		}
-		else
-		{
-			if (UCoreWidget* Blade = CreateBlade(PC, Settings->PauseMenuBlade))
+			else
 			{
-				PauseMenuBlade = Cast<UCoreBlade>(Blade);
+				if (UCoreWidget* Blade = CreateBlade(PC, Settings->MainHUDBlade))
+				{
+					MainHUDBlade = Cast<UCoreBlade>(Blade);
+				}
 			}
-		}
-		break;
+			break;
+		case ECoreMainBladeType::PauseMenu:
+			if (PauseMenuBlade)
+			{
+				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("PauseMenuBlade is already open. Ignoring."));
+			}
+			else
+			{
+				if (UCoreWidget* Blade = CreateBlade(PC, Settings->PauseMenuBlade))
+				{
+					PauseMenuBlade = Cast<UCoreBlade>(Blade);
+				}
+			}
+			break;
 	}
 }
 
@@ -150,27 +150,27 @@ void UUISubsystem::RemoveMainBlade(ECoreMainBladeType MainBladeType)
 {
 	switch (MainBladeType)
 	{
-	case ECoreMainBladeType::MainMenu:
-		if(MainMenuBlade)
-		{
-			RemoveBlade(MainMenuBlade);
-			MainMenuBlade = nullptr;
-		}
-		break;
-	case ECoreMainBladeType::MainHUD:
-		if(MainHUDBlade)
-		{
-			RemoveBlade(MainHUDBlade);
-			MainHUDBlade = nullptr;
-		}
-		break;
-	case ECoreMainBladeType::PauseMenu:
-		if(PauseMenuBlade)
-		{
-			RemoveBlade(PauseMenuBlade);
-			PauseMenuBlade = nullptr;
-		}
-		break;
+		case ECoreMainBladeType::MainMenu:
+			if (MainMenuBlade)
+			{
+				RemoveBlade(MainMenuBlade);
+				MainMenuBlade = nullptr;
+			}
+			break;
+		case ECoreMainBladeType::MainHUD:
+			if (MainHUDBlade)
+			{
+				RemoveBlade(MainHUDBlade);
+				MainHUDBlade = nullptr;
+			}
+			break;
+		case ECoreMainBladeType::PauseMenu:
+			if (PauseMenuBlade)
+			{
+				RemoveBlade(PauseMenuBlade);
+				PauseMenuBlade = nullptr;
+			}
+			break;
 	}
 }
 
@@ -178,15 +178,15 @@ UCoreBlade* UUISubsystem::GetMainBlade(ECoreMainBladeType MainBladeType)
 {
 	switch (MainBladeType)
 	{
-	case ECoreMainBladeType::MainMenu:
-		return MainMenuBlade;
-		break;
-	case ECoreMainBladeType::MainHUD:
-		return MainHUDBlade;
-		break;
-	case ECoreMainBladeType::PauseMenu:
-		return PauseMenuBlade;
-		break;
+		case ECoreMainBladeType::MainMenu:
+			return MainMenuBlade;
+			break;
+		case ECoreMainBladeType::MainHUD:
+			return MainHUDBlade;
+			break;
+		case ECoreMainBladeType::PauseMenu:
+			return PauseMenuBlade;
+			break;
 	}
 
 	return nullptr;

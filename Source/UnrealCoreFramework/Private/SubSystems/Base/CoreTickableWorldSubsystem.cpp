@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "SubSystems/Base/CoreTickableWorldSubsystem.h"
 
 DEFINE_LOG_CATEGORY(LogTickableWorldSubsystem);
@@ -31,6 +30,3 @@ void UCoreTickableWorldSubsystem::Deinitialize()
 	Super::Deinitialize();
 	UE_LOG(LogTickableWorldSubsystem, Log, TEXT("Deinitialize UCoreTickableWorldSubsystem"));
 }
-
-
-

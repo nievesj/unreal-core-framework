@@ -2,18 +2,17 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "CoreCharacter.h"
+#include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "CoreGameMode.generated.h"
 
+#include "CoreGameMode.generated.h"
 
 UCLASS()
 class UNREALCOREFRAMEWORK_API ACoreGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 public:
-
 	virtual void InitGameState() override;
 	virtual void OnGameStateInitialized();
 
