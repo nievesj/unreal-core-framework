@@ -4,74 +4,11 @@
 
 #include "Blueprint/UserWidget.h"
 #include "CoreMinimal.h"
+#include "UiCoreFrameworkTypes.h"
 
 #include "CoreWidget.generated.h"
 
-enum class EBUIEasingType;
 class UCanvasPanel;
-
-UENUM(BlueprintType)
-enum class EWidgetTransitionType : uint8
-{
-	NotUsed,
-	Scale,
-	Left,
-	Right,
-	Top,
-	Bottom,
-	Fade
-};
-
-UENUM(BlueprintType)
-enum class EWidgetTransitionMode : uint8
-{
-	Intro,
-	Outtro,
-};
-
-UENUM(BlueprintType)
-enum class EWidgetAnimationType : uint8
-{
-	None,
-	WidgetTween,
-	WidgetAnimation,
-};
-
-USTRUCT(BlueprintType)
-struct FWidgetTweenTransitionOptions
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
-	EWidgetTransitionType TransitionType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
-	EBUIEasingType EasingType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
-	float TransitionTime = 0.5f;
-};
-
-USTRUCT(BlueprintType)
-struct FWidgetAnimationOptions
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
-	float StartAtTime = 0.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
-	int32 NumberOfLoops = 1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
-	TEnumAsByte<EUMGSequencePlayMode::Type> PlayMode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
-	float PlaybackSpeed = 1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
-	bool bRestoreState = false;
-};
 
 UCLASS(Abstract, editinlinenew, BlueprintType, Blueprintable, meta = (DontUseGenericSpawnObject = "True", DisableNativeTick))
 class UNREALCOREFRAMEWORK_API UCoreWidget : public UUserWidget
@@ -95,9 +32,9 @@ protected:
 	void PlayTweenTransition(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode);
 	void PlayWidgetAnimation(UWidgetAnimation* Anim, const FWidgetAnimationOptions& WidgetAnimationOptions, const EWidgetTransitionMode WidgetTransitionMode);
 
-	void Scale(FVector2D Start, FVector2D End, const EWidgetTransitionMode WidgetTransitionMode);
+	void Scale(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode);
 	void Move(FVector2D Start, FVector2D End, const EWidgetTransitionMode WidgetTransitionMode);
-	void Fade(const EWidgetTransitionMode WidgetTransitionMode);
+	void Fade(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode);
 
 	void HandleOnWidgetAnimationCompleted(const EWidgetTransitionMode WidgetTransitionMode);
 

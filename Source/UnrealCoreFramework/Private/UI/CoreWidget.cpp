@@ -78,12 +78,14 @@ void UCoreWidget::HandleOnWidgetAnimationCompleted(const EWidgetTransitionMode W
 void UCoreWidget::PlayTweenTransition(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
 {
 	FWidgetTransform WidgetTransform = CanvasPanel->GetRenderTransform();
-
+	//const FGeometry& Geometry = GetCachedGeometry();
+	FVector2D Size = GetDesiredSize();
 	switch (TweenTransitionOptions.TransitionType)
 	{
 		case EWidgetTransitionType::NotUsed:
 			break;
 		case EWidgetTransitionType::Scale:
+			Scale(TweenTransitionOptions, WidgetTransitionMode);
 			break;
 		case EWidgetTransitionType::Left:
 			break;
@@ -94,13 +96,49 @@ void UCoreWidget::PlayTweenTransition(const FWidgetTweenTransitionOptions& Tween
 		case EWidgetTransitionType::Bottom:
 			break;
 		case EWidgetTransitionType::Fade:
-			Fade(WidgetTransitionMode);
+			Fade(TweenTransitionOptions, WidgetTransitionMode);
 			break;
 	}
 }
 
-void UCoreWidget::Scale(FVector2D Start, FVector2D End, const EWidgetTransitionMode WidgetTransitionMode)
+void UCoreWidget::Scale(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
 {
+	FVector2D Start;
+	FVector2D End;
+	float Duration = 0;
+	EBUIEasingType EasingType = EBUIEasingType::Linear;
+
+	switch (WidgetTransitionMode)
+	{
+		case EWidgetTransitionMode::Intro:
+			Start = TweenTransitionOptions.MinScale;
+			End = TweenTransitionOptions.MaxScale;
+			Duration = WidgetTweenTransitionOptionsIntro.TransitionTime;
+			EasingType = WidgetTweenTransitionOptionsIntro.EasingType;
+			break;
+		case EWidgetTransitionMode::Outtro:
+			Start = TweenTransitionOptions.MaxScale;
+			End = TweenTransitionOptions.MinScale;
+			Duration = WidgetTweenTransitionOptionsOuttro.TransitionTime;
+			EasingType = WidgetTweenTransitionOptionsOuttro.EasingType;
+			break;
+	}
+
+	TWeakObjectPtr<UCoreWidget> WeakThis = this;
+	UBUITween::Create(this, Duration)
+		.FromScale(Start)
+		.ToScale(End)
+		.Easing(EasingType)
+		.OnComplete(FBUITweenSignature::CreateLambda(
+			[WidgetTransitionMode, WeakThis](UWidget* Owner)
+			{
+				if (UCoreWidget* Widget = WeakThis.Get())
+				{
+					Widget->HandleOnWidgetAnimationCompleted(WidgetTransitionMode);
+				}
+			}
+		))
+		.Begin();
 }
 
 void UCoreWidget::Move(FVector2D Start, FVector2D End, const EWidgetTransitionMode WidgetTransitionMode)
@@ -121,30 +159,34 @@ void UCoreWidget::Move(FVector2D Start, FVector2D End, const EWidgetTransitionMo
 		.Begin();
 }
 
-void UCoreWidget::Fade(const EWidgetTransitionMode WidgetTransitionMode)
+void UCoreWidget::Fade(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
 {
 	float Start = 0;
 	float End = 0;
 	float Duration = 0;
+	EBUIEasingType EasingType = EBUIEasingType::Linear;
 
 	switch (WidgetTransitionMode)
 	{
 		case EWidgetTransitionMode::Intro:
-			Start = 0.0f;
-			End = 1.0f;
+			Start = TweenTransitionOptions.FadeMinVisibility;
+			End = TweenTransitionOptions.FadeMaxVisibility;
 			Duration = WidgetTweenTransitionOptionsIntro.TransitionTime;
+			EasingType = WidgetTweenTransitionOptionsIntro.EasingType;
 			break;
 		case EWidgetTransitionMode::Outtro:
-			Start = 1.0f;
-			End = 0.0f;
+			Start = TweenTransitionOptions.FadeMaxVisibility;
+			End = TweenTransitionOptions.FadeMinVisibility;
 			Duration = WidgetTweenTransitionOptionsOuttro.TransitionTime;
+			EasingType = WidgetTweenTransitionOptionsOuttro.EasingType;
 			break;
 	}
-
+		
 	TWeakObjectPtr<UCoreWidget> WeakThis = this;
 	UBUITween::Create(this, Duration)
 		.FromOpacity(Start)
 		.ToOpacity(End)
+		.Easing(EasingType)
 		.OnComplete(FBUITweenSignature::CreateLambda(
 			[WidgetTransitionMode, WeakThis](UWidget* Owner)
 			{
