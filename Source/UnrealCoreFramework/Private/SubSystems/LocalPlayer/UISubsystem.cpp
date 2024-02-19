@@ -102,15 +102,6 @@ void UUISubsystem::CreateMainBlade(ECoreMainBladeType MainBladeType)
 					PauseMenuBlade = nullptr;
 				}
 
-				if (IsValid(Settings->MainMenuBlade))
-				{
-					UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("valid."));
-				}
-				else
-				{
-					UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("invalid."));
-				}
-
 				if (UCoreWidget* Blade = CreateBlade(PC, *Settings->MainMenuBlade))
 				{
 					MainMenuBlade = Cast<UCoreBlade>(Blade);

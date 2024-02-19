@@ -123,6 +123,7 @@
 !FAQ
 !VERSION
 !ChangeLog
+!.clang-format
 
 # Ignore Unix backup files
 *~

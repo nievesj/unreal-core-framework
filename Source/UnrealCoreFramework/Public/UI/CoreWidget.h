@@ -7,6 +7,7 @@
 
 #include "CoreWidget.generated.h"
 
+enum class EBUIEasingType;
 class UCanvasPanel;
 
 UENUM(BlueprintType)
@@ -43,6 +44,9 @@ struct FWidgetTweenTransitionOptions
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
 	EWidgetTransitionType TransitionType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
+	EBUIEasingType EasingType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
 	float TransitionTime = 0.5f;
