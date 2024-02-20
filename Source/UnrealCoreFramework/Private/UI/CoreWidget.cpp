@@ -6,6 +6,9 @@
 #include "Animation/UMGSequencePlayer.h"
 #include "BUITween.h"
 #include "Components/CanvasPanel.h"
+#include "Components/Viewport.h"
+#include "Engine/Engine.h"
+#include "Engine/GameViewportClient.h"
 
 void UCoreWidget::Show()
 {
@@ -77,9 +80,6 @@ void UCoreWidget::HandleOnWidgetAnimationCompleted(const EWidgetTransitionMode W
 
 void UCoreWidget::PlayTweenTransition(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
 {
-	FWidgetTransform WidgetTransform = CanvasPanel->GetRenderTransform();
-	//const FGeometry& Geometry = GetCachedGeometry();
-	FVector2D Size = GetDesiredSize();
 	switch (TweenTransitionOptions.TransitionType)
 	{
 		case EWidgetTransitionType::NotUsed:
@@ -88,12 +88,10 @@ void UCoreWidget::PlayTweenTransition(const FWidgetTweenTransitionOptions& Tween
 			Scale(TweenTransitionOptions, WidgetTransitionMode);
 			break;
 		case EWidgetTransitionType::Left:
-			break;
 		case EWidgetTransitionType::Right:
-			break;
 		case EWidgetTransitionType::Top:
-			break;
 		case EWidgetTransitionType::Bottom:
+			Move(TweenTransitionOptions, WidgetTransitionMode);
 			break;
 		case EWidgetTransitionType::Fade:
 			Fade(TweenTransitionOptions, WidgetTransitionMode);
@@ -141,12 +139,32 @@ void UCoreWidget::Scale(const FWidgetTweenTransitionOptions& TweenTransitionOpti
 		.Begin();
 }
 
-void UCoreWidget::Move(FVector2D Start, FVector2D End, const EWidgetTransitionMode WidgetTransitionMode)
+void UCoreWidget::Move(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
 {
+	FVector2D Start;
+	FVector2D End;
+	float Duration = 0;
+	EBUIEasingType EasingType = EBUIEasingType::Linear;
+
+	switch (WidgetTransitionMode)
+	{
+		case EWidgetTransitionMode::Intro:
+			GetVector(TweenTransitionOptions.TransitionType, Start, End);
+			Duration = WidgetTweenTransitionOptionsIntro.TransitionTime;
+			EasingType = WidgetTweenTransitionOptionsIntro.EasingType;
+			break;
+		case EWidgetTransitionMode::Outtro:
+			GetVector(TweenTransitionOptions.TransitionType, End, Start);
+			Duration = WidgetTweenTransitionOptionsOuttro.TransitionTime;
+			EasingType = WidgetTweenTransitionOptionsOuttro.EasingType;
+			break;
+	}
+
 	TWeakObjectPtr<UCoreWidget> WeakThis = this;
-	UBUITween::Create(this, 0.5f)
+	UBUITween::Create(this, Duration)
 		.FromTranslation(Start)
 		.ToTranslation(End)
+		.Easing(EasingType)
 		.OnComplete(FBUITweenSignature::CreateLambda(
 			[WidgetTransitionMode, WeakThis](UWidget* Owner)
 			{
@@ -157,6 +175,36 @@ void UCoreWidget::Move(FVector2D Start, FVector2D End, const EWidgetTransitionMo
 			}
 		))
 		.Begin();
+}
+
+void UCoreWidget::GetVector(EWidgetTransitionType WidgetTransitionType, FVector2D& OutStart, FVector2D& OutEnd)
+{
+	// Viewport Size
+	// jmn: Not sure I want to use the viewport size as the start position as there might be occasions where we want to start from mid screen or wherever else...
+	// add more options maybe, and offsets?
+	const FVector2D ViewportSize = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
+	OutStart = FVector2D(0);
+	OutEnd = FVector2D(0);
+
+	switch (WidgetTransitionType)
+	{
+		case EWidgetTransitionType::Left:
+			OutStart = FVector2D(ViewportSize.X, 0);
+			OutEnd = FVector2D(0);
+			break;
+		case EWidgetTransitionType::Right:
+			OutStart = FVector2D(-ViewportSize.X, 0);
+			OutEnd = FVector2D(0);
+			break;
+		case EWidgetTransitionType::Top:
+			OutStart = FVector2D(0, -ViewportSize.Y);
+			OutEnd = FVector2D(0);
+			break;
+		case EWidgetTransitionType::Bottom:
+			OutStart = FVector2D(0, ViewportSize.Y);
+			OutEnd = FVector2D(0);
+			break;
+	}
 }
 
 void UCoreWidget::Fade(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
@@ -181,7 +229,7 @@ void UCoreWidget::Fade(const FWidgetTweenTransitionOptions& TweenTransitionOptio
 			EasingType = WidgetTweenTransitionOptionsOuttro.EasingType;
 			break;
 	}
-		
+
 	TWeakObjectPtr<UCoreWidget> WeakThis = this;
 	UBUITween::Create(this, Duration)
 		.FromOpacity(Start)

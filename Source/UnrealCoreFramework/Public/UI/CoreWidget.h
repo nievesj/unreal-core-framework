@@ -33,9 +33,9 @@ protected:
 	void PlayWidgetAnimation(UWidgetAnimation* Anim, const FWidgetAnimationOptions& WidgetAnimationOptions, const EWidgetTransitionMode WidgetTransitionMode);
 
 	void Scale(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode);
-	void Move(FVector2D Start, FVector2D End, const EWidgetTransitionMode WidgetTransitionMode);
+	void Move(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode);
 	void Fade(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode);
-
+	void GetVector(EWidgetTransitionType WidgetTransitionType, FVector2D& OutStart, FVector2D& OutEnd);
 	void HandleOnWidgetAnimationCompleted(const EWidgetTransitionMode WidgetTransitionMode);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CoreWidget)
