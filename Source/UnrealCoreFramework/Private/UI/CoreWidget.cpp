@@ -87,11 +87,8 @@ void UCoreWidget::PlayTweenTransition(const FWidgetTweenTransitionOptions& Tween
 		case EWidgetTransitionType::Scale:
 			Scale(TweenTransitionOptions, WidgetTransitionMode);
 			break;
-		case EWidgetTransitionType::Left:
-		case EWidgetTransitionType::Right:
-		case EWidgetTransitionType::Top:
-		case EWidgetTransitionType::Bottom:
-			Move(TweenTransitionOptions, WidgetTransitionMode);
+		case EWidgetTransitionType::Translation:
+			Translation(TweenTransitionOptions, WidgetTransitionMode);
 			break;
 		case EWidgetTransitionType::Fade:
 			Fade(TweenTransitionOptions, WidgetTransitionMode);
@@ -139,7 +136,7 @@ void UCoreWidget::Scale(const FWidgetTweenTransitionOptions& TweenTransitionOpti
 		.Begin();
 }
 
-void UCoreWidget::Move(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
+void UCoreWidget::Translation(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
 {
 	FVector2D Start;
 	FVector2D End;
@@ -149,12 +146,12 @@ void UCoreWidget::Move(const FWidgetTweenTransitionOptions& TweenTransitionOptio
 	switch (WidgetTransitionMode)
 	{
 		case EWidgetTransitionMode::Intro:
-			GetVector(TweenTransitionOptions.TransitionType, Start, End);
+			GetTranslationVectors(TweenTransitionOptions.WidgetTranslationType, Start, End);
 			Duration = WidgetTweenTransitionOptionsIntro.TransitionTime;
 			EasingType = WidgetTweenTransitionOptionsIntro.EasingType;
 			break;
 		case EWidgetTransitionMode::Outtro:
-			GetVector(TweenTransitionOptions.TransitionType, End, Start);
+			GetTranslationVectors(TweenTransitionOptions.WidgetTranslationType, End, Start);
 			Duration = WidgetTweenTransitionOptionsOuttro.TransitionTime;
 			EasingType = WidgetTweenTransitionOptionsOuttro.EasingType;
 			break;
@@ -177,30 +174,27 @@ void UCoreWidget::Move(const FWidgetTweenTransitionOptions& TweenTransitionOptio
 		.Begin();
 }
 
-void UCoreWidget::GetVector(EWidgetTransitionType WidgetTransitionType, FVector2D& OutStart, FVector2D& OutEnd)
+void UCoreWidget::GetTranslationVectors(EWidgetTranslationType WidgetTranslationType, FVector2D& OutStart, FVector2D& OutEnd)
 {
 	// Viewport Size
 	// jmn: Not sure I want to use the viewport size as the start position as there might be occasions where we want to start from mid screen or wherever else...
 	// add more options maybe, and offsets?
 	const FVector2D ViewportSize = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
-	OutStart = FVector2D(0);
-	OutEnd = FVector2D(0);
-
-	switch (WidgetTransitionType)
+	switch (WidgetTranslationType)
 	{
-		case EWidgetTransitionType::Left:
+		case EWidgetTranslationType::FromLeft:
 			OutStart = FVector2D(ViewportSize.X, 0);
 			OutEnd = FVector2D(0);
 			break;
-		case EWidgetTransitionType::Right:
+		case EWidgetTranslationType::FromRight:
 			OutStart = FVector2D(-ViewportSize.X, 0);
 			OutEnd = FVector2D(0);
 			break;
-		case EWidgetTransitionType::Top:
+		case EWidgetTranslationType::FromTop:
 			OutStart = FVector2D(0, -ViewportSize.Y);
 			OutEnd = FVector2D(0);
 			break;
-		case EWidgetTransitionType::Bottom:
+		case EWidgetTranslationType::FromBottom:
 			OutStart = FVector2D(0, ViewportSize.Y);
 			OutEnd = FVector2D(0);
 			break;

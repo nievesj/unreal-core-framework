@@ -12,16 +12,23 @@ namespace EUMGSequencePlayMode
 {
 enum Type : int;
 }
+
 UENUM(BlueprintType)
 enum class EWidgetTransitionType : uint8
 {
 	NotUsed,
 	Scale,
-	Left,
-	Right,
-	Top,
-	Bottom,
+	Translation,
 	Fade
+};
+
+UENUM(BlueprintType)
+enum class EWidgetTranslationType : uint8
+{
+	FromLeft,
+	FromRight,
+	FromTop,
+	FromBottom,
 };
 
 UENUM(BlueprintType)
@@ -46,6 +53,9 @@ struct FWidgetTweenTransitionOptions
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
 	EWidgetTransitionType TransitionType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
+	EWidgetTranslationType WidgetTranslationType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
 	EBUIEasingType EasingType;
