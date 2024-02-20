@@ -35,7 +35,7 @@ protected:
 	void Scale(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode);
 	void Translation(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode);
 	void Fade(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode);
-	void GetTranslationVectors(EWidgetTranslationType WidgetTranslationType, FVector2D& OutStart, FVector2D& OutEnd);
+	void GetViewportTranslationVectors(EWidgetTranslationType WidgetTranslationType, FVector2D& OutStart, FVector2D& OutEnd);
 	void HandleOnWidgetAnimationCompleted(const EWidgetTransitionMode WidgetTransitionMode);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CoreWidget)
@@ -45,10 +45,10 @@ protected:
 	UCanvasPanel* CanvasPanel;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CoreWidget, meta = (EditCondition = "WidgetAnimationType == EWidgetAnimationType::WidgetTween"))
-	FWidgetTweenTransitionOptions WidgetTweenTransitionOptionsIntro;
+	FWidgetTweenTransitionOptions TweenEntranceOptions;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CoreWidget, meta = (EditCondition = "WidgetAnimationType == EWidgetAnimationType::WidgetTween"))
-	FWidgetTweenTransitionOptions WidgetTweenTransitionOptionsOuttro;
+	FWidgetTweenTransitionOptions TweenExitOptions;
 
 	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category = CoreWidget, meta = (BindWidgetAnimOptional, EditCondition = "WidgetAnimationType == EWidgetAnimationType::WidgetAnimation"))
 	UWidgetAnimation* WidgetAnimationIntro;
