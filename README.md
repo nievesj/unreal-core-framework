@@ -15,6 +15,6 @@ This is a Plugin for Unreal Engine 5.3 and it's purpose is to help speed up deve
  		* Spawner Actor
    		* Spawner Volume
      	* Factory
-	* Sample proyect
+	* Sample project
   	    
 
