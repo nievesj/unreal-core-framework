@@ -63,32 +63,32 @@ struct FWidgetTweenTransitionOptions
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
 	float TransitionTime = 0.5f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions, meta = (EditCondition = "TransitionType == EWidgetTransitionType::Fade"))
-	float FadeMaxVisibility = 1.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
+	float FadeFrom = 1.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions, meta = (EditCondition = "TransitionType == EWidgetTransitionType::Fade"))
-	float FadeMinVisibility = 0.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions, meta = (EditCondition = "TransitionType == EWidgetTransitionType::Scale"))
-	FVector2D MaxScale;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
+	float FadeTo = 1.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions, meta = (EditCondition = "TransitionType == EWidgetTransitionType::Scale"))
-	FVector2D MinScale;
+	FVector2D ScaleFrom;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions, meta = (EditCondition = "TransitionType == EWidgetTransitionType::Scale"))
+	FVector2D ScaleTo;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions, meta = (EditCondition = "TransitionType == EWidgetTransitionType::Translation"))
 	bool UseViewportAsTranslationOrigin = true;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions, meta = (EditCondition = "UseViewportAsTranslationOrigin == false && TransitionType == EWidgetTransitionType::Translation"))
-	FVector2D StartTranslationVector2D;
+	FVector2D TranslationFrom;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions, meta = (EditCondition = "UseViewportAsTranslationOrigin == false && TransitionType == EWidgetTransitionType::Translation"))
-	FVector2D EndTranslationVector2D;
+	FVector2D TranslationTo;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions, meta = (EditCondition = "TransitionType == EWidgetTransitionType::Translation"))
-	FVector2D StartTranslationOffset;
+	FVector2D TranslationFromOffset;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions, meta = (EditCondition = "TransitionType == EWidgetTransitionType::Translation"))
-	FVector2D EndTranslationOffset;
+	FVector2D TranslationToOffset;
 };
 
 USTRUCT(BlueprintType)

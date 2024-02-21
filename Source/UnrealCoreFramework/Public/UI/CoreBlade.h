@@ -29,7 +29,7 @@ protected:
 
 	UFUNCTION()
 	void Handle_OnExitButtonClicked();
-	
+
 	UPROPERTY(BlueprintReadWrite, Category = CoreBlade, meta = (BindWidgetOptional))
 	UButton* ExitButton;
 

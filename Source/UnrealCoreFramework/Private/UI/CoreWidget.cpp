@@ -105,26 +105,56 @@ void UCoreWidget::PlayTweenTransition(const FWidgetTweenTransitionOptions& Tween
 	}
 }
 
+void UCoreWidget::GetViewportTranslationVectors(EWidgetTranslationType WidgetTranslationType, FVector2D& OutStart, FVector2D& OutEnd)
+{
+	const FVector2D ViewportSize = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
+	switch (WidgetTranslationType)
+	{
+		case EWidgetTranslationType::FromLeft:
+			OutStart = FVector2D(ViewportSize.X, 0);
+		OutEnd = FVector2D(0);
+		break;
+		case EWidgetTranslationType::FromRight:
+			OutStart = FVector2D(-ViewportSize.X, 0);
+		OutEnd = FVector2D(0);
+		break;
+		case EWidgetTranslationType::FromTop:
+			OutStart = FVector2D(0, -ViewportSize.Y);
+		OutEnd = FVector2D(0);
+		break;
+		case EWidgetTranslationType::FromBottom:
+			OutStart = FVector2D(0, ViewportSize.Y);
+		OutEnd = FVector2D(0);
+		break;
+	}
+}
+
 void UCoreWidget::Scale(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
 {
 	FVector2D Start;
 	FVector2D End;
+	float StartOpacity = 1;
+	float EndOpacity = 1;
 	float Duration = 0;
 	EBUIEasingType EasingType = EBUIEasingType::Linear;
 
 	switch (WidgetTransitionMode)
 	{
 		case EWidgetTransitionMode::Intro:
-			Start = TweenTransitionOptions.MinScale;
-			End = TweenTransitionOptions.MaxScale;
-			Duration = TweenEntranceOptions.TransitionTime;
-			EasingType = TweenEntranceOptions.EasingType;
+			Start = TweenTransitionOptions.ScaleFrom;
+			End = TweenTransitionOptions.ScaleTo;
+			Duration = TweenTransitionOptions.TransitionTime;
+			EasingType = TweenTransitionOptions.EasingType;
+			StartOpacity = TweenTransitionOptions.FadeFrom;
+			EndOpacity = TweenTransitionOptions.FadeTo;
 			break;
 		case EWidgetTransitionMode::Outtro:
-			Start = TweenTransitionOptions.MaxScale;
-			End = TweenTransitionOptions.MinScale;
-			Duration = TweenExitOptions.TransitionTime;
-			EasingType = TweenExitOptions.EasingType;
+			Start = TweenTransitionOptions.ScaleFrom;
+			End = TweenTransitionOptions.ScaleTo;
+			Duration = TweenTransitionOptions.TransitionTime;
+			EasingType = TweenTransitionOptions.EasingType;
+			StartOpacity = TweenTransitionOptions.FadeFrom;
+			EndOpacity = TweenTransitionOptions.FadeTo;
 			break;
 	}
 
@@ -132,6 +162,8 @@ void UCoreWidget::Scale(const FWidgetTweenTransitionOptions& TweenTransitionOpti
 	UBUITween::Create(this, Duration)
 		.FromScale(Start)
 		.ToScale(End)
+		.FromOpacity(StartOpacity)
+		.ToOpacity(EndOpacity)
 		.Easing(EasingType)
 		.OnComplete(FBUITweenSignature::CreateLambda(
 			[WidgetTransitionMode, WeakThis](UWidget* Owner)
@@ -149,6 +181,8 @@ void UCoreWidget::Translation(const FWidgetTweenTransitionOptions& TweenTransiti
 {
 	FVector2D Start;
 	FVector2D End;
+	float StartOpacity = 1;
+	float EndOpacity = 1;
 	float Duration = 0;
 	EBUIEasingType EasingType = EBUIEasingType::Linear;
 
@@ -157,32 +191,38 @@ void UCoreWidget::Translation(const FWidgetTweenTransitionOptions& TweenTransiti
 		case EWidgetTransitionMode::Intro:
 			if (!TweenTransitionOptions.UseViewportAsTranslationOrigin)
 			{
-				Start = TweenTransitionOptions.StartTranslationVector2D + TweenTransitionOptions.StartTranslationOffset;
-				End = TweenTransitionOptions.EndTranslationVector2D + TweenTransitionOptions.EndTranslationOffset;
+				Start = TweenTransitionOptions.TranslationFrom + TweenTransitionOptions.TranslationFromOffset;
+				End = TweenTransitionOptions.TranslationTo + TweenTransitionOptions.TranslationToOffset;
 			}
 			else
 			{
 				GetViewportTranslationVectors(TweenTransitionOptions.WidgetTranslationType, Start, End);
-				Start += TweenTransitionOptions.StartTranslationOffset;
-				End += TweenTransitionOptions.EndTranslationOffset;
+				Start += TweenTransitionOptions.TranslationFromOffset;
+				End += TweenTransitionOptions.TranslationToOffset;
 			}
-			Duration = TweenEntranceOptions.TransitionTime;
-			EasingType = TweenEntranceOptions.EasingType;
+
+			StartOpacity = TweenTransitionOptions.FadeFrom;
+			EndOpacity = TweenTransitionOptions.FadeTo;
+			Duration = TweenTransitionOptions.TransitionTime;
+			EasingType = TweenTransitionOptions.EasingType;
 			break;
 		case EWidgetTransitionMode::Outtro:
 			if (!TweenTransitionOptions.UseViewportAsTranslationOrigin)
 			{
-				Start = TweenTransitionOptions.StartTranslationVector2D + TweenTransitionOptions.StartTranslationOffset;
-				End = TweenTransitionOptions.EndTranslationVector2D + TweenTransitionOptions.EndTranslationOffset;
+				Start = TweenTransitionOptions.TranslationFrom + TweenTransitionOptions.TranslationFromOffset;
+				End = TweenTransitionOptions.TranslationTo + TweenTransitionOptions.TranslationToOffset;
 			}
 			else
 			{
 				GetViewportTranslationVectors(TweenTransitionOptions.WidgetTranslationType, End, Start);
-				Start += TweenTransitionOptions.StartTranslationOffset;
-				End += TweenTransitionOptions.EndTranslationOffset;
+				Start += TweenTransitionOptions.TranslationFromOffset;
+				End += TweenTransitionOptions.TranslationToOffset;
 			}
-			Duration = TweenExitOptions.TransitionTime;
-			EasingType = TweenExitOptions.EasingType;
+
+			StartOpacity = TweenTransitionOptions.FadeFrom;
+			EndOpacity = TweenTransitionOptions.FadeTo;
+			Duration = TweenTransitionOptions.TransitionTime;
+			EasingType = TweenTransitionOptions.EasingType;
 			break;
 	}
 
@@ -190,6 +230,8 @@ void UCoreWidget::Translation(const FWidgetTweenTransitionOptions& TweenTransiti
 	UBUITween::Create(this, Duration)
 		.FromTranslation(Start)
 		.ToTranslation(End)
+		.FromOpacity(StartOpacity)
+		.ToOpacity(EndOpacity)
 		.Easing(EasingType)
 		.OnComplete(FBUITweenSignature::CreateLambda(
 			[WidgetTransitionMode, WeakThis](UWidget* Owner)
@@ -203,30 +245,6 @@ void UCoreWidget::Translation(const FWidgetTweenTransitionOptions& TweenTransiti
 		.Begin();
 }
 
-void UCoreWidget::GetViewportTranslationVectors(EWidgetTranslationType WidgetTranslationType, FVector2D& OutStart, FVector2D& OutEnd)
-{
-	const FVector2D ViewportSize = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
-	switch (WidgetTranslationType)
-	{
-		case EWidgetTranslationType::FromLeft:
-			OutStart = FVector2D(ViewportSize.X, 0);
-			OutEnd = FVector2D(0);
-			break;
-		case EWidgetTranslationType::FromRight:
-			OutStart = FVector2D(-ViewportSize.X, 0);
-			OutEnd = FVector2D(0);
-			break;
-		case EWidgetTranslationType::FromTop:
-			OutStart = FVector2D(0, -ViewportSize.Y);
-			OutEnd = FVector2D(0);
-			break;
-		case EWidgetTranslationType::FromBottom:
-			OutStart = FVector2D(0, ViewportSize.Y);
-			OutEnd = FVector2D(0);
-			break;
-	}
-}
-
 void UCoreWidget::Fade(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
 {
 	float Start = 0;
@@ -237,16 +255,16 @@ void UCoreWidget::Fade(const FWidgetTweenTransitionOptions& TweenTransitionOptio
 	switch (WidgetTransitionMode)
 	{
 		case EWidgetTransitionMode::Intro:
-			Start = TweenTransitionOptions.FadeMinVisibility;
-			End = TweenTransitionOptions.FadeMaxVisibility;
-			Duration = TweenEntranceOptions.TransitionTime;
-			EasingType = TweenEntranceOptions.EasingType;
+			Start = TweenTransitionOptions.FadeFrom;
+			End = TweenTransitionOptions.FadeTo;
+			Duration = TweenTransitionOptions.TransitionTime;
+			EasingType = TweenTransitionOptions.EasingType;
 			break;
 		case EWidgetTransitionMode::Outtro:
-			Start = TweenTransitionOptions.FadeMaxVisibility;
-			End = TweenTransitionOptions.FadeMinVisibility;
-			Duration = TweenExitOptions.TransitionTime;
-			EasingType = TweenExitOptions.EasingType;
+			Start = TweenTransitionOptions.FadeFrom;
+			End = TweenTransitionOptions.FadeTo;
+			Duration = TweenTransitionOptions.TransitionTime;
+			EasingType = TweenTransitionOptions.EasingType;
 			break;
 	}
 
