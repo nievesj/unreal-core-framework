@@ -37,11 +37,14 @@ protected:
 	void Fade(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode);
 	void GetViewportTranslationVectors(EWidgetTranslationType WidgetTranslationType, FVector2D& OutStart, FVector2D& OutEnd);
 	void HandleOnWidgetAnimationCompleted(const EWidgetTransitionMode WidgetTransitionMode);
-
+	
+	virtual void InternalShown();
+	virtual void InternalHidden();
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CoreWidget)
 	EWidgetAnimationType WidgetAnimationType = EWidgetAnimationType::WidgetTween;
 
-	UPROPERTY(BlueprintReadWrite, Category = CoreWidget, meta = (BindWidgetOptional, EditCondition = "WidgetAnimationType == EWidgetAnimationType::WidgetTween"))
+	UPROPERTY(BlueprintReadWrite, Category = CoreWidget, meta = (BindWidgetOptional))
 	UCanvasPanel* CanvasPanel;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CoreWidget, meta = (EditCondition = "WidgetAnimationType == EWidgetAnimationType::WidgetTween"))

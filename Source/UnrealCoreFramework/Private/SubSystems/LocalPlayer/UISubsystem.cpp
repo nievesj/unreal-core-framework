@@ -47,8 +47,15 @@ UCoreWidget* UUISubsystem::CreateBlade(APlayerController* Owner, TSubclassOf<UCo
 
 void UUISubsystem::RemoveBlade(IBladeableWidgetInterface* Blade)
 {
-	Blade->Close();
-	CoreWidgetsOpen.Remove(Blade);
+	if(Blade)
+	{
+		if (UCoreWidget* Widget = Cast<UCoreWidget>(Blade))
+		{
+			Widget->RemoveFromParent();
+		}
+
+		CoreWidgetsOpen.Remove(Blade);
+	}
 }
 
 void UUISubsystem::RemoveAllBlades()

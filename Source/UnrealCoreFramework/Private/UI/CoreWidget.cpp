@@ -70,12 +70,21 @@ void UCoreWidget::HandleOnWidgetAnimationCompleted(const EWidgetTransitionMode W
 	switch (WidgetTransitionMode)
 	{
 		case EWidgetTransitionMode::Intro:
-			OnShown();
+			InternalShown();
 			break;
 		case EWidgetTransitionMode::Outtro:
-			OnHidden();
+			InternalHidden();
 			break;
 	}
+}
+void UCoreWidget::InternalShown()
+{
+	OnShown();
+}
+
+void UCoreWidget::InternalHidden()
+{
+	OnHidden();
 }
 
 void UCoreWidget::PlayTweenTransition(const FWidgetTweenTransitionOptions& TweenTransitionOptions, const EWidgetTransitionMode WidgetTransitionMode)
@@ -163,14 +172,14 @@ void UCoreWidget::Translation(const FWidgetTweenTransitionOptions& TweenTransiti
 		case EWidgetTransitionMode::Outtro:
 			if (!TweenTransitionOptions.UseViewportAsTranslationOrigin)
 			{
-				Start = TweenTransitionOptions.EndTranslationVector2D + TweenTransitionOptions.EndTranslationOffset;
-				End = TweenTransitionOptions.StartTranslationVector2D + TweenTransitionOptions.StartTranslationOffset;
+				Start = TweenTransitionOptions.StartTranslationVector2D + TweenTransitionOptions.StartTranslationOffset;
+				End = TweenTransitionOptions.EndTranslationVector2D + TweenTransitionOptions.EndTranslationOffset;
 			}
 			else
 			{
 				GetViewportTranslationVectors(TweenTransitionOptions.WidgetTranslationType, End, Start);
-				Start += TweenTransitionOptions.EndTranslationOffset;
-				End += TweenTransitionOptions.StartTranslationOffset;
+				Start += TweenTransitionOptions.StartTranslationOffset;
+				End += TweenTransitionOptions.EndTranslationOffset;
 			}
 			Duration = TweenExitOptions.TransitionTime;
 			EasingType = TweenExitOptions.EasingType;
@@ -196,9 +205,6 @@ void UCoreWidget::Translation(const FWidgetTweenTransitionOptions& TweenTransiti
 
 void UCoreWidget::GetViewportTranslationVectors(EWidgetTranslationType WidgetTranslationType, FVector2D& OutStart, FVector2D& OutEnd)
 {
-	// Viewport Size
-	// jmn: Not sure I want to use the viewport size as the start position as there might be occasions where we want to start from mid screen or wherever else...
-	// add more options maybe, and offsets?
 	const FVector2D ViewportSize = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
 	switch (WidgetTranslationType)
 	{

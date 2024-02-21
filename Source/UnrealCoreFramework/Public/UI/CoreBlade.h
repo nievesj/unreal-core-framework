@@ -8,6 +8,7 @@
 
 #include "CoreBlade.generated.h"
 
+class UButton;
 class UUISubsystem;
 
 UCLASS(Abstract, editinlinenew, BlueprintType, Blueprintable, meta = (DontUseGenericSpawnObject = "True", DisableNativeTick))
@@ -22,6 +23,15 @@ private:
 
 protected:
 	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
+	virtual void InternalShown() override;
+	virtual void InternalHidden() override;
+
+	UFUNCTION()
+	void Handle_OnExitButtonClicked();
+	
+	UPROPERTY(BlueprintReadWrite, Category = CoreBlade, meta = (BindWidgetOptional))
+	UButton* ExitButton;
 
 	UPROPERTY(Transient)
 	UUISubsystem* UISubsystem;

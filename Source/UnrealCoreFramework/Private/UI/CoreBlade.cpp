@@ -2,19 +2,8 @@
 
 #include "UI/CoreBlade.h"
 
+#include "Components/Button.h"
 #include "SubSystems/LocalPlayer/UISubsystem.h"
-
-void UCoreBlade::Open()
-{
-	IBladeableWidgetInterface::Open();
-	Show();
-}
-
-void UCoreBlade::Close()
-{
-	IBladeableWidgetInterface::Close();
-	Hide();
-}
 
 void UCoreBlade::NativeConstruct()
 {
@@ -27,4 +16,46 @@ void UCoreBlade::NativeConstruct()
 			UISubsystem = LocalPlayer->GetSubsystem<UUISubsystem>();
 		}
 	}
+}
+
+void UCoreBlade::NativeDestruct()
+{
+	Super::NativeDestruct();
+}
+
+void UCoreBlade::InternalShown()
+{
+	Super::InternalShown();
+
+	if (ExitButton)
+	{
+		ExitButton->OnClicked.AddDynamic(this, &UCoreBlade::Handle_OnExitButtonClicked);
+	}
+}
+
+void UCoreBlade::InternalHidden()
+{
+	Super::InternalHidden();
+	UISubsystem->RemoveBlade(this);
+}
+
+void UCoreBlade::Handle_OnExitButtonClicked()
+{
+	if (ExitButton)
+	{
+		ExitButton->OnClicked.RemoveAll(this);
+	}
+	Close();
+}
+
+void UCoreBlade::Open()
+{
+	IBladeableWidgetInterface::Open();
+	Show();
+}
+
+void UCoreBlade::Close()
+{
+	IBladeableWidgetInterface::Close();
+	Hide();
 }
