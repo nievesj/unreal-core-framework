@@ -200,7 +200,9 @@
 # Add Horde dockerfiles
 !/Engine/Source/Programs/Horde/**/Dockerfile
 
+# Add Plugin Directories
 !/Content/**
+!/Resources/**
 
 # Ignore NET binaries
 /Engine/Binaries/ThirdParty/DotNet/
