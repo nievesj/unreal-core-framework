@@ -200,6 +200,8 @@
 # Add Horde dockerfiles
 !/Engine/Source/Programs/Horde/**/Dockerfile
 
+!/Content/**
+
 # Ignore NET binaries
 /Engine/Binaries/ThirdParty/DotNet/
 /Engine/Binaries/DotNET/UnrealBuildTool/
