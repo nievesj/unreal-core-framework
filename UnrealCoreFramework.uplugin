@@ -21,11 +21,6 @@
 			"LoadingPhase": "Default"
 		},
 		{
-			"Name": "Game",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
 			"Name": "BUITween",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
