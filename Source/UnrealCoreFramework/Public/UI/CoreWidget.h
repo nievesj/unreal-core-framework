@@ -9,6 +9,9 @@
 #include "CoreWidget.generated.h"
 
 class UCanvasPanel;
+class UUISubsystem;
+
+DECLARE_LOG_CATEGORY_EXTERN(LogCoreWidget, Log, All);
 
 UCLASS(Abstract, editinlinenew, BlueprintType, Blueprintable, meta = (DontUseGenericSpawnObject = "True", DisableNativeTick))
 class UNREALCOREFRAMEWORK_API UCoreWidget : public UUserWidget
@@ -16,6 +19,9 @@ class UNREALCOREFRAMEWORK_API UCoreWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
+
+	UUISubsystem* GetUISubsystem();
+	
 	UFUNCTION(BlueprintCallable, Category = CoreWidget)
 	void Show();
 

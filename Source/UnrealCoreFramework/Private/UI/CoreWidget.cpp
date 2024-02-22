@@ -9,6 +9,35 @@
 #include "Components/Viewport.h"
 #include "Engine/Engine.h"
 #include "Engine/GameViewportClient.h"
+#include "VisualLogger/VisualLogger.h"
+
+DEFINE_LOG_CATEGORY(LogCoreWidget);
+
+UUISubsystem* UCoreWidget::GetUISubsystem()
+{
+	APlayerController* PC = GetOwningPlayer();
+	if (!PC)
+	{
+		UE_VLOG_UELOG(this, LogCoreWidget, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainBlade - Failed to get Player Controller"));
+		return nullptr;
+	}
+
+	const ULocalPlayer* LocalPlayer = PC->GetLocalPlayer();
+	if (!LocalPlayer)
+	{
+		UE_VLOG_UELOG(this, LogCoreWidget, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainBlade - Failed to get Local Player"));
+		return nullptr;
+	}
+
+	UUISubsystem* UISubsystem = LocalPlayer->GetSubsystem<UUISubsystem>();
+	if (!UISubsystem)
+	{
+		UE_VLOG_UELOG(this, LogCoreWidget, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainBlade - Failed to get UISubsystem"));
+		return nullptr;
+	}
+	
+	return UISubsystem;
+}
 
 void UCoreWidget::Show()
 {
@@ -112,20 +141,20 @@ void UCoreWidget::GetViewportTranslationVectors(EWidgetTranslationType WidgetTra
 	{
 		case EWidgetTranslationType::FromLeft:
 			OutStart = FVector2D(ViewportSize.X, 0);
-		OutEnd = FVector2D(0);
-		break;
+			OutEnd = FVector2D(0);
+			break;
 		case EWidgetTranslationType::FromRight:
 			OutStart = FVector2D(-ViewportSize.X, 0);
-		OutEnd = FVector2D(0);
-		break;
+			OutEnd = FVector2D(0);
+			break;
 		case EWidgetTranslationType::FromTop:
 			OutStart = FVector2D(0, -ViewportSize.Y);
-		OutEnd = FVector2D(0);
-		break;
+			OutEnd = FVector2D(0);
+			break;
 		case EWidgetTranslationType::FromBottom:
 			OutStart = FVector2D(0, ViewportSize.Y);
-		OutEnd = FVector2D(0);
-		break;
+			OutEnd = FVector2D(0);
+			break;
 	}
 }
 
