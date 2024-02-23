@@ -7,7 +7,7 @@
 
 #include "CoreUiBlueprintFunctionLibrary.generated.h"
 
-class UCoreBlade;
+class UCorePage;
 DECLARE_LOG_CATEGORY_EXTERN(LogCoreUiFunctionLibrary, Log, All);
 
 class UCoreWidget;
@@ -20,19 +20,17 @@ class UNREALCOREFRAMEWORK_API UCoreUiBlueprintFunctionLibrary : public UBlueprin
 	GENERATED_BODY()
 
 	UFUNCTION(BlueprintCallable, Category = CoreFrameworkUi, Meta = (DefaultToSelf = "Widget"))
-	static UCoreWidget* CreateBlade(UCoreWidget* Widget, TSubclassOf<UCoreWidget> BladeClass);
+	static UCoreWidget* CreatePage(UCoreWidget* Widget, TSubclassOf<UCoreWidget> PageClass);
 
 	UFUNCTION(BlueprintCallable, Category = CoreFrameworkUi, Meta = (DefaultToSelf = "Widget"))
-	static void RemoveBlade(UCoreWidget* Widget, UCoreBlade* Blade);
+	static void RemovePage(UCoreWidget* Widget, UCorePage* Page);
 
 	UFUNCTION(BlueprintCallable, Category = CoreFrameworkUi, Meta = (DefaultToSelf = "Widget"))
-	static void CreateMainBlade(UCoreWidget* Widget, ECoreMainBladeType MainBladeType);
+	static void CreateMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType);
 
 	UFUNCTION(BlueprintCallable, Category = CoreFrameworkUi, Meta = (DefaultToSelf = "Widget"))
-	static void RemoveMainBlade(UCoreWidget* Widget, ECoreMainBladeType MainBladeType);
+	static void RemoveMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType);
 
 	UFUNCTION(BlueprintCallable, Category = CoreFrameworkUi, Meta = (DefaultToSelf = "Widget"))
-	static UCoreBlade* GetMainBlade(UCoreWidget* Widget, ECoreMainBladeType MainBladeType);
-
-	
+	static UCorePage* GetMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType);
 };

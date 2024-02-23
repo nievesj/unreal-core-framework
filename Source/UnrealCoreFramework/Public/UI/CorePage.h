@@ -2,17 +2,17 @@
 
 #pragma once
 
-#include "BladeableWidgetInterface.h"
 #include "CoreMinimal.h"
 #include "CoreWidget.h"
+#include "PageableWidgetInterface.h"
 
-#include "CoreBlade.generated.h"
+#include "CorePage.generated.h"
 
 class UButton;
 class UUISubsystem;
 
 UCLASS(Abstract, editinlinenew, BlueprintType, Blueprintable, meta = (DontUseGenericSpawnObject = "True", DisableNativeTick))
-class UNREALCOREFRAMEWORK_API UCoreBlade : public UCoreWidget, public IBladeableWidgetInterface
+class UNREALCOREFRAMEWORK_API UCorePage : public UCoreWidget, public IPageableWidgetInterface
 {
 public:
 	virtual void Open() override;
@@ -30,7 +30,7 @@ protected:
 	UFUNCTION()
 	void Handle_OnExitButtonClicked();
 
-	UPROPERTY(BlueprintReadWrite, Category = CoreBlade, meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, Category = CorePage, meta = (BindWidgetOptional))
 	UButton* ExitButton;
 
 	UPROPERTY(Transient)

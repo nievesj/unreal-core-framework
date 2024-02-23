@@ -5,18 +5,18 @@
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 
-#include "BladeableWidgetInterface.generated.h"
+#include "PageableWidgetInterface.generated.h"
 
 /**
  *
  */
 UINTERFACE(MinimalAPI)
-class UBladeableWidgetInterface : public UInterface
+class UPageableWidgetInterface : public UInterface
 {
 	GENERATED_BODY()
 };
 
-class UNREALCOREFRAMEWORK_API IBladeableWidgetInterface
+class UNREALCOREFRAMEWORK_API IPageableWidgetInterface
 {
 	GENERATED_BODY()
 

@@ -1,11 +1,11 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "UI/CoreBlade.h"
+#include "UI/CorePage.h"
 
 #include "Components/Button.h"
 #include "SubSystems/LocalPlayer/UISubsystem.h"
 
-void UCoreBlade::NativeConstruct()
+void UCorePage::NativeConstruct()
 {
 	Super::NativeConstruct();
 
@@ -18,28 +18,28 @@ void UCoreBlade::NativeConstruct()
 	}
 }
 
-void UCoreBlade::NativeDestruct()
+void UCorePage::NativeDestruct()
 {
 	Super::NativeDestruct();
 }
 
-void UCoreBlade::InternalShown()
+void UCorePage::InternalShown()
 {
 	Super::InternalShown();
 
 	if (ExitButton)
 	{
-		ExitButton->OnClicked.AddDynamic(this, &UCoreBlade::Handle_OnExitButtonClicked);
+		ExitButton->OnClicked.AddDynamic(this, &UCorePage::Handle_OnExitButtonClicked);
 	}
 }
 
-void UCoreBlade::InternalHidden()
+void UCorePage::InternalHidden()
 {
 	Super::InternalHidden();
-	UISubsystem->RemoveBlade(this);
+	UISubsystem->RemovePage(this);
 }
 
-void UCoreBlade::Handle_OnExitButtonClicked()
+void UCorePage::Handle_OnExitButtonClicked()
 {
 	if (ExitButton)
 	{
@@ -48,14 +48,14 @@ void UCoreBlade::Handle_OnExitButtonClicked()
 	Close();
 }
 
-void UCoreBlade::Open()
+void UCorePage::Open()
 {
-	IBladeableWidgetInterface::Open();
+	IPageableWidgetInterface::Open();
 	Show();
 }
 
-void UCoreBlade::Close()
+void UCorePage::Close()
 {
-	IBladeableWidgetInterface::Close();
+	IPageableWidgetInterface::Close();
 	Hide();
 }

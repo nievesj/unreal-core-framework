@@ -4,18 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "SubSystems/Base/CoreLocalPlayerSubsystem.h"
-#include "UI/BladeableWidgetInterface.h"
+#include "UI/PageableWidgetInterface.h"
 
 #include "UISubsystem.generated.h"
 
-class UCoreBlade;
+class UCorePage;
 class ACorePlayerController;
 class UCoreWidget;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogUISubsystem, Log, All);
 
 UENUM(BlueprintType)
-enum class ECoreMainBladeType : uint8
+enum class ECoreMainPageType : uint8
 {
 	MainMenu,
 	MainHUD,
@@ -28,27 +28,27 @@ class UNREALCOREFRAMEWORK_API UUISubsystem : public UCoreLocalPlayerSubsystem
 	GENERATED_BODY()
 
 public:
-	UCoreWidget* CreateBlade(APlayerController* Owner, TSubclassOf<UCoreWidget> BladeClass);
-	void RemoveBlade(IBladeableWidgetInterface* Blade);
-	void RemoveAllBlades();
-	IBladeableWidgetInterface* GetTopBlade();
+	UCoreWidget* CreatePage(APlayerController* Owner, TSubclassOf<UCoreWidget> PageClass);
+	void RemovePage(IPageableWidgetInterface* Page);
+	void RemoveAllPages();
+	IPageableWidgetInterface* GetTopPage();
 
-	void CreateMainBlade(ECoreMainBladeType MainBladeType);
-	void RemoveMainBlade(ECoreMainBladeType MainBladeType);
-	UCoreBlade* GetMainBlade(ECoreMainBladeType MainBladeType);
+	void CreateMainPage(ECoreMainPageType MainPageType);
+	void RemoveMainPage(ECoreMainPageType MainPageType);
+	UCorePage* GetMainPage(ECoreMainPageType MainPageType);
 
 private:
 	UPROPERTY(Transient)
-	TArray<IBladeableWidgetInterface*> CoreWidgetsOpen;
+	TArray<IPageableWidgetInterface*> CoreWidgetsOpen;
 
 	UPROPERTY(Transient)
-	UCoreBlade* MainMenuBlade;
+	UCorePage* MainMenuPage;
 
 	UPROPERTY(Transient)
-	UCoreBlade* MainHUDBlade;
+	UCorePage* MainHUDPage;
 
 	UPROPERTY(Transient)
-	UCoreBlade* PauseMenuBlade;
+	UCorePage* PauseMenuPage;
 
 protected:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;

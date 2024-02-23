@@ -31,7 +31,7 @@ void UCoreGameInstance::OnStart()
 		if (const ULocalPlayer* LocalPlayer = PC->GetLocalPlayer())
 		{
 			UUISubsystem* UISubsystem = LocalPlayer->GetSubsystem<UUISubsystem>();
-			UISubsystem->CreateMainBlade(ECoreMainBladeType::MainHUD);
+			UISubsystem->CreateMainPage(ECoreMainPageType::MainHUD);
 			UE_VLOG_UELOG(this, LogCoreGameInstance, Log, TEXT("Created MainMenu"));
 		}
 	}
@@ -64,7 +64,7 @@ FGameInstancePIEResult UCoreGameInstance::StartPlayInEditorGameInstance(ULocalPl
 	if (LocalPlayer)
 	{
 		UUISubsystem* UISubsystem = LocalPlayer->GetSubsystem<UUISubsystem>();
-		UISubsystem->CreateMainBlade(ECoreMainBladeType::MainHUD);
+		UISubsystem->CreateMainPage(ECoreMainPageType::MainHUD);
 		UE_VLOG_UELOG(this, LogCoreGameInstance, Log, TEXT("Created MainMenu"));
 	}
 

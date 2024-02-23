@@ -18,21 +18,21 @@ UUISubsystem* UCoreWidget::GetUISubsystem()
 	APlayerController* PC = GetOwningPlayer();
 	if (!PC)
 	{
-		UE_VLOG_UELOG(this, LogCoreWidget, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainBlade - Failed to get Player Controller"));
+		UE_VLOG_UELOG(this, LogCoreWidget, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainPage - Failed to get Player Controller"));
 		return nullptr;
 	}
 
 	const ULocalPlayer* LocalPlayer = PC->GetLocalPlayer();
 	if (!LocalPlayer)
 	{
-		UE_VLOG_UELOG(this, LogCoreWidget, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainBlade - Failed to get Local Player"));
+		UE_VLOG_UELOG(this, LogCoreWidget, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainPage - Failed to get Local Player"));
 		return nullptr;
 	}
 
 	UUISubsystem* UISubsystem = LocalPlayer->GetSubsystem<UUISubsystem>();
 	if (!UISubsystem)
 	{
-		UE_VLOG_UELOG(this, LogCoreWidget, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainBlade - Failed to get UISubsystem"));
+		UE_VLOG_UELOG(this, LogCoreWidget, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainPage - Failed to get UISubsystem"));
 		return nullptr;
 	}
 	

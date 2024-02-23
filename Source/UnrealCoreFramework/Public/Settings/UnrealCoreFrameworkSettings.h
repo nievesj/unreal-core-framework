@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DeveloperSettings.h"
 #include "GameFramework/GameUserSettings.h"
-#include "UI/CoreBlade.h"
+#include "UI/CorePage.h"
 
 #include "UnrealCoreFrameworkSettings.generated.h"
 
@@ -20,12 +20,12 @@ public:
 		return GetDefault<UUnrealCoreFrameworkSettings>();
 	}
 
-	UPROPERTY(EditAnywhere, config, BlueprintReadWrite, Category = UnrealCoreFrameworkSettings, Meta = (DisplayName = "Main Menu Blade"))
-	TSubclassOf<UCoreBlade> MainMenuBlade;
+	UPROPERTY(EditAnywhere, config, BlueprintReadWrite, Category = UnrealCoreFrameworkSettings, Meta = (DisplayName = "Main Menu Page"))
+	TSubclassOf<UCorePage> MainMenuPage;
 
-	UPROPERTY(EditAnywhere, config, BlueprintReadWrite, Category = UnrealCoreFrameworkSettings, Meta = (DisplayName = "Main HUD Blade"))
-	TSubclassOf<UCoreBlade> MainHUDBlade;
+	UPROPERTY(EditAnywhere, config, BlueprintReadWrite, Category = UnrealCoreFrameworkSettings, Meta = (DisplayName = "Main HUD Page"))
+	TSubclassOf<UCorePage> MainHUDPage;
 
-	UPROPERTY(EditAnywhere, config, BlueprintReadWrite, Category = UnrealCoreFrameworkSettings, Meta = (DisplayName = "Pause Menu Blade"))
-	TSubclassOf<UCoreBlade> PauseMenuBlade;
+	UPROPERTY(EditAnywhere, config, BlueprintReadWrite, Category = UnrealCoreFrameworkSettings, Meta = (DisplayName = "Pause Menu Page"))
+	TSubclassOf<UCorePage> PauseMenuPage;
 };

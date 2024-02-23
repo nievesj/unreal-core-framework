@@ -25,8 +25,8 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UnrealCoreFrameworkSettings, Meta = (DisplayName = "Main HUD Class"))
-	TSubclassOf<UCoreWidget> MainBladeClass;
+	TSubclassOf<UCoreWidget> MainPageClass;
 
 	UPROPERTY(Transient)
-	UCoreWidget* MainBlade;
+	UCoreWidget* MainPage;
 };

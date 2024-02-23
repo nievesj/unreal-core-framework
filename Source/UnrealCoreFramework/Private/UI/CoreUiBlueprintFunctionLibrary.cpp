@@ -8,81 +8,81 @@
 
 DEFINE_LOG_CATEGORY(LogCoreUiFunctionLibrary);
 
-UCoreWidget* UCoreUiBlueprintFunctionLibrary::CreateBlade(UCoreWidget* Widget, TSubclassOf<UCoreWidget> BladeClass)
+UCoreWidget* UCoreUiBlueprintFunctionLibrary::CreatePage(UCoreWidget* Widget, TSubclassOf<UCoreWidget> PageClass)
 {
 	if (!Widget)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::CreateBlade - Widget is invalid"));
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::CreatePage - Widget is invalid"));
 	}
 
 	APlayerController* PC = Widget->GetOwningPlayer();
 	if (!PC)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::CreateBlade - Failed to get Player Controller"));
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::CreatePage - Failed to get Player Controller"));
 	}
 
 	UUISubsystem* UISubsystem = Widget->GetUISubsystem();
 	if (!UISubsystem)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::CreateBlade - Failed to get UISubsystem"));
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::CreatePage - Failed to get UISubsystem"));
 	}
 
-	return UISubsystem->CreateBlade(PC, BladeClass);
+	return UISubsystem->CreatePage(PC, PageClass);
 }
 
-void UCoreUiBlueprintFunctionLibrary::RemoveBlade(UCoreWidget* Widget, UCoreBlade* Blade)
+void UCoreUiBlueprintFunctionLibrary::RemovePage(UCoreWidget* Widget, UCorePage* Page)
 {
 	if (!Widget)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveBlade - Widget is invalid"));
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemovePage - Widget is invalid"));
 	}
 
 	if (UUISubsystem* UISubsystem = Widget->GetUISubsystem())
 	{
-		UISubsystem->RemoveBlade(Cast<IBladeableWidgetInterface>(Blade));
+		UISubsystem->RemovePage(Cast<IPageableWidgetInterface>(Page));
 	}
 }
 
-void UCoreUiBlueprintFunctionLibrary::CreateMainBlade(UCoreWidget* Widget, ECoreMainBladeType MainBladeType)
+void UCoreUiBlueprintFunctionLibrary::CreateMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType)
 {
 	if (!Widget)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveBlade - Widget is invalid"));
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemovePage - Widget is invalid"));
 	}
 
 	if (UUISubsystem* UISubsystem = Widget->GetUISubsystem())
 	{
-		UISubsystem->CreateMainBlade(MainBladeType);
+		UISubsystem->CreateMainPage(MainPageType);
 	}
 }
 
-void UCoreUiBlueprintFunctionLibrary::RemoveMainBlade(UCoreWidget* Widget, ECoreMainBladeType MainBladeType)
+void UCoreUiBlueprintFunctionLibrary::RemoveMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType)
 {
 	if (!Widget)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainBlade - Widget is invalid"));
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainPage - Widget is invalid"));
 	}
 
 	if (UUISubsystem* UISubsystem = Widget->GetUISubsystem())
 	{
-		UISubsystem->RemoveMainBlade(MainBladeType);
+		UISubsystem->RemoveMainPage(MainPageType);
 	}
 }
 
-UCoreBlade* UCoreUiBlueprintFunctionLibrary::GetMainBlade(UCoreWidget* Widget, ECoreMainBladeType MainBladeType)
+UCorePage* UCoreUiBlueprintFunctionLibrary::GetMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType)
 {
 	if (!Widget)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::GetMainBlade - Widget is invalid"));
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::GetMainPage - Widget is invalid"));
 		return nullptr;
 	}
 
 	UUISubsystem* UISubsystem = Widget->GetUISubsystem();
 	if (!UISubsystem)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::GetMainBlade - Failed to get UISubsystem"));
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::GetMainPage - Failed to get UISubsystem"));
 		return nullptr;
 	}
 
-	return UISubsystem->GetMainBlade(MainBladeType);
+	return UISubsystem->GetMainPage(MainPageType);
 }

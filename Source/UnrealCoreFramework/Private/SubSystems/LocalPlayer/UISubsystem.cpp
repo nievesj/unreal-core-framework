@@ -10,7 +10,7 @@
 
 DEFINE_LOG_CATEGORY(LogUISubsystem);
 
-UCoreWidget* UUISubsystem::CreateBlade(APlayerController* Owner, TSubclassOf<UCoreWidget> BladeClass)
+UCoreWidget* UUISubsystem::CreatePage(APlayerController* Owner, TSubclassOf<UCoreWidget> PageClass)
 {
 	if (!Owner)
 	{
@@ -18,62 +18,62 @@ UCoreWidget* UUISubsystem::CreateBlade(APlayerController* Owner, TSubclassOf<UCo
 		return nullptr;
 	}
 
-	if (!IsValid(BladeClass))
+	if (!IsValid(PageClass))
 	{
-		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("BladeClass is not valid"));
+		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("PageClass is not valid"));
 		return nullptr;
 	}
 
-	if (const UClass* Class = BladeClass.Get(); !Class->ImplementsInterface(UBladeableWidgetInterface::StaticClass()))
+	if (const UClass* Class = PageClass.Get(); !Class->ImplementsInterface(UPageableWidgetInterface::StaticClass()))
 	{
-		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Parameter Blade does not implement Interface UBladeableWidgetInterface."));
+		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Parameter Page does not implement Interface UPageableWidgetInterface."));
 		return nullptr;
 	}
 
-	if (UCoreWidget* Blade = CreateWidget<UCoreWidget>(Owner, BladeClass))
+	if (UCoreWidget* Page = CreateWidget<UCoreWidget>(Owner, PageClass))
 	{
-		Blade->AddToViewport();
-		IBladeableWidgetInterface* BladeInt = Cast<IBladeableWidgetInterface>(Blade);
+		Page->AddToViewport();
+		IPageableWidgetInterface* PageInt = Cast<IPageableWidgetInterface>(Page);
 
-		CoreWidgetsOpen.Push(BladeInt);
-		BladeInt->Open();
-		UE_VLOG_UELOG(this, LogUISubsystem, Log, TEXT("Created Blade %s"), *Blade->GetName());
-		return Blade;
+		CoreWidgetsOpen.Push(PageInt);
+		PageInt->Open();
+		UE_VLOG_UELOG(this, LogUISubsystem, Log, TEXT("Created Page %s"), *Page->GetName());
+		return Page;
 	}
 
-	UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Failed to create Blade."));
+	UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Failed to create Page."));
 	return nullptr;
 }
 
-void UUISubsystem::RemoveBlade(IBladeableWidgetInterface* Blade)
+void UUISubsystem::RemovePage(IPageableWidgetInterface* Page)
 {
-	if(Blade)
+	if(Page)
 	{
-		if (UCoreWidget* Widget = Cast<UCoreWidget>(Blade))
+		if (UCoreWidget* Widget = Cast<UCoreWidget>(Page))
 		{
 			Widget->RemoveFromParent();
 		}
 
-		CoreWidgetsOpen.Remove(Blade);
+		CoreWidgetsOpen.Remove(Page);
 	}
 }
 
-void UUISubsystem::RemoveAllBlades()
+void UUISubsystem::RemoveAllPages()
 {
-	for (IBladeableWidgetInterface* Blade : CoreWidgetsOpen)
+	for (IPageableWidgetInterface* Page : CoreWidgetsOpen)
 	{
-		Blade->Close();
+		Page->Close();
 	}
 
 	CoreWidgetsOpen.Empty();
 }
 
-IBladeableWidgetInterface* UUISubsystem::GetTopBlade()
+IPageableWidgetInterface* UUISubsystem::GetTopPage()
 {
 	return CoreWidgetsOpen.Top();
 }
 
-void UUISubsystem::CreateMainBlade(ECoreMainBladeType MainBladeType)
+void UUISubsystem::CreateMainPage(ECoreMainPageType MainPageType)
 {
 	const UUnrealCoreFrameworkSettings* Settings = UUnrealCoreFrameworkSettings::GetSettings();
 	if (!Settings)
@@ -89,101 +89,101 @@ void UUISubsystem::CreateMainBlade(ECoreMainBladeType MainBladeType)
 		return;
 	}
 
-	switch (MainBladeType)
+	switch (MainPageType)
 	{
-		case ECoreMainBladeType::MainMenu:
-			if (MainMenuBlade)
+		case ECoreMainPageType::MainMenu:
+			if (MainMenuPage)
 			{
-				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("MainMenuBlade is already open. Ignoring."));
+				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("MainMenuPage is already open. Ignoring."));
 			}
 			else
 			{
-				if (MainHUDBlade)
+				if (MainHUDPage)
 				{
-					RemoveBlade(MainHUDBlade);
-					MainHUDBlade = nullptr;
+					RemovePage(MainHUDPage);
+					MainHUDPage = nullptr;
 				}
-				if (PauseMenuBlade)
+				if (PauseMenuPage)
 				{
-					RemoveBlade(PauseMenuBlade);
-					PauseMenuBlade = nullptr;
+					RemovePage(PauseMenuPage);
+					PauseMenuPage = nullptr;
 				}
 
-				if (UCoreWidget* Blade = CreateBlade(PC, *Settings->MainMenuBlade))
+				if (UCoreWidget* Page = CreatePage(PC, *Settings->MainMenuPage))
 				{
-					MainMenuBlade = Cast<UCoreBlade>(Blade);
+					MainMenuPage = Cast<UCorePage>(Page);
 				}
 			}
 			break;
-		case ECoreMainBladeType::MainHUD:
-			if (MainMenuBlade)
+		case ECoreMainPageType::MainHUD:
+			if (MainMenuPage)
 			{
-				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("MainHUDBlade is already open. Ignoring."));
+				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("MainHUDPage is already open. Ignoring."));
 			}
 			else
 			{
-				if (UCoreWidget* Blade = CreateBlade(PC, Settings->MainHUDBlade))
+				if (UCoreWidget* Page = CreatePage(PC, Settings->MainHUDPage))
 				{
-					MainHUDBlade = Cast<UCoreBlade>(Blade);
+					MainHUDPage = Cast<UCorePage>(Page);
 				}
 			}
 			break;
-		case ECoreMainBladeType::PauseMenu:
-			if (PauseMenuBlade)
+		case ECoreMainPageType::PauseMenu:
+			if (PauseMenuPage)
 			{
-				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("PauseMenuBlade is already open. Ignoring."));
+				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("PauseMenuPage is already open. Ignoring."));
 			}
 			else
 			{
-				if (UCoreWidget* Blade = CreateBlade(PC, Settings->PauseMenuBlade))
+				if (UCoreWidget* Page = CreatePage(PC, Settings->PauseMenuPage))
 				{
-					PauseMenuBlade = Cast<UCoreBlade>(Blade);
+					PauseMenuPage = Cast<UCorePage>(Page);
 				}
 			}
 			break;
 	}
 }
 
-void UUISubsystem::RemoveMainBlade(ECoreMainBladeType MainBladeType)
+void UUISubsystem::RemoveMainPage(ECoreMainPageType MainPageType)
 {
-	switch (MainBladeType)
+	switch (MainPageType)
 	{
-		case ECoreMainBladeType::MainMenu:
-			if (MainMenuBlade)
+		case ECoreMainPageType::MainMenu:
+			if (MainMenuPage)
 			{
-				RemoveBlade(MainMenuBlade);
-				MainMenuBlade = nullptr;
+				RemovePage(MainMenuPage);
+				MainMenuPage = nullptr;
 			}
 			break;
-		case ECoreMainBladeType::MainHUD:
-			if (MainHUDBlade)
+		case ECoreMainPageType::MainHUD:
+			if (MainHUDPage)
 			{
-				RemoveBlade(MainHUDBlade);
-				MainHUDBlade = nullptr;
+				RemovePage(MainHUDPage);
+				MainHUDPage = nullptr;
 			}
 			break;
-		case ECoreMainBladeType::PauseMenu:
-			if (PauseMenuBlade)
+		case ECoreMainPageType::PauseMenu:
+			if (PauseMenuPage)
 			{
-				RemoveBlade(PauseMenuBlade);
-				PauseMenuBlade = nullptr;
+				RemovePage(PauseMenuPage);
+				PauseMenuPage = nullptr;
 			}
 			break;
 	}
 }
 
-UCoreBlade* UUISubsystem::GetMainBlade(ECoreMainBladeType MainBladeType)
+UCorePage* UUISubsystem::GetMainPage(ECoreMainPageType MainPageType)
 {
-	switch (MainBladeType)
+	switch (MainPageType)
 	{
-		case ECoreMainBladeType::MainMenu:
-			return MainMenuBlade;
+		case ECoreMainPageType::MainMenu:
+			return MainMenuPage;
 			break;
-		case ECoreMainBladeType::MainHUD:
-			return MainHUDBlade;
+		case ECoreMainPageType::MainHUD:
+			return MainHUDPage;
 			break;
-		case ECoreMainBladeType::PauseMenu:
-			return PauseMenuBlade;
+		case ECoreMainPageType::PauseMenu:
+			return PauseMenuPage;
 			break;
 	}
 
