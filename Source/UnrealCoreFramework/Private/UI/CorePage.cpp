@@ -51,6 +51,7 @@ void UCorePage::Handle_OnExitButtonClicked()
 void UCorePage::Open()
 {
 	IPageableWidgetInterface::Open();
+	DisablePlayerControllerInput = DisablePlayerInput;
 	Show();
 }
 

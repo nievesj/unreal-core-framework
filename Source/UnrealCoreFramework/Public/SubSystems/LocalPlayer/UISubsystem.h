@@ -31,24 +31,17 @@ public:
 	UCoreWidget* CreatePage(APlayerController* Owner, TSubclassOf<UCoreWidget> PageClass);
 	void RemovePage(IPageableWidgetInterface* Page);
 	void RemoveAllPages();
+	
 	IPageableWidgetInterface* GetTopPage();
-
 	void CreateMainPage(ECoreMainPageType MainPageType);
-	void RemoveMainPage(ECoreMainPageType MainPageType);
-	UCorePage* GetMainPage(ECoreMainPageType MainPageType);
+	UCoreWidget* GetMainPage(ECoreMainPageType MainPageType);
+
+	bool ShouldDisablePlayerControllerInput();
+	void SetPlayerControllerInput(APlayerController* PC, bool IsDisabled);
 
 private:
 	UPROPERTY(Transient)
 	TArray<IPageableWidgetInterface*> CoreWidgetsOpen;
-
-	UPROPERTY(Transient)
-	UCorePage* MainMenuPage;
-
-	UPROPERTY(Transient)
-	UCorePage* MainHUDPage;
-
-	UPROPERTY(Transient)
-	UCorePage* PauseMenuPage;
 
 protected:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;

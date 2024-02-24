@@ -3,6 +3,7 @@
 #include "SubSystems/LocalPlayer/UISubsystem.h"
 
 #include "Blueprint/UserWidget.h"
+#include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "Settings/UnrealCoreFrameworkSettings.h"
 #include "UI/CoreHUD.h"
@@ -47,14 +48,18 @@ UCoreWidget* UUISubsystem::CreatePage(APlayerController* Owner, TSubclassOf<UCor
 
 void UUISubsystem::RemovePage(IPageableWidgetInterface* Page)
 {
-	if(Page)
+	if (Page)
 	{
+		CoreWidgetsOpen.Remove(Page);
 		if (UCoreWidget* Widget = Cast<UCoreWidget>(Page))
 		{
+			if (APlayerController* PC = Widget->GetOwningPlayer())
+			{
+				SetPlayerControllerInput(PC, ShouldDisablePlayerControllerInput());
+			}
+
 			Widget->RemoveFromParent();
 		}
-
-		CoreWidgetsOpen.Remove(Page);
 	}
 }
 
@@ -82,7 +87,14 @@ void UUISubsystem::CreateMainPage(ECoreMainPageType MainPageType)
 		return;
 	}
 
-	APlayerController* PC = GetWorld()->GetFirstPlayerController();
+	const UWorld* World = GetWorld();
+	if (!World)
+	{
+		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Failed to get World."));
+		return;
+	}
+
+	APlayerController* PC = World->GetFirstPlayerController();
 	if (!PC)
 	{
 		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Failed to get Player Controller."));
@@ -92,102 +104,92 @@ void UUISubsystem::CreateMainPage(ECoreMainPageType MainPageType)
 	switch (MainPageType)
 	{
 		case ECoreMainPageType::MainMenu:
-			if (MainMenuPage)
-			{
-				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("MainMenuPage is already open. Ignoring."));
-			}
-			else
-			{
-				if (MainHUDPage)
-				{
-					RemovePage(MainHUDPage);
-					MainHUDPage = nullptr;
-				}
-				if (PauseMenuPage)
-				{
-					RemovePage(PauseMenuPage);
-					PauseMenuPage = nullptr;
-				}
-
-				if (UCoreWidget* Page = CreatePage(PC, *Settings->MainMenuPage))
-				{
-					MainMenuPage = Cast<UCorePage>(Page);
-				}
-			}
+			CreatePage(PC, *Settings->MainMenuPage);
 			break;
 		case ECoreMainPageType::MainHUD:
-			if (MainMenuPage)
-			{
-				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("MainHUDPage is already open. Ignoring."));
-			}
-			else
-			{
-				if (UCoreWidget* Page = CreatePage(PC, Settings->MainHUDPage))
-				{
-					MainHUDPage = Cast<UCorePage>(Page);
-				}
-			}
+			CreatePage(PC, Settings->MainHUDPage);
 			break;
 		case ECoreMainPageType::PauseMenu:
-			if (PauseMenuPage)
-			{
-				UE_VLOG_UELOG(this, LogUISubsystem, Warning, TEXT("PauseMenuPage is already open. Ignoring."));
-			}
-			else
-			{
-				if (UCoreWidget* Page = CreatePage(PC, Settings->PauseMenuPage))
-				{
-					PauseMenuPage = Cast<UCorePage>(Page);
-				}
-			}
+			CreatePage(PC, Settings->PauseMenuPage);
 			break;
 	}
+
+	SetPlayerControllerInput(PC, ShouldDisablePlayerControllerInput());
 }
 
-void UUISubsystem::RemoveMainPage(ECoreMainPageType MainPageType)
+UCoreWidget* UUISubsystem::GetMainPage(ECoreMainPageType MainPageType)
 {
+	TSubclassOf<UCorePage> MainClass = nullptr;
+	const UUnrealCoreFrameworkSettings* Settings = UUnrealCoreFrameworkSettings::GetSettings();
+	if (!Settings)
+	{
+		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Failed to get Developer Settings for UnrealCoreFrameworkSettings."));
+		return nullptr;
+	}
+
 	switch (MainPageType)
 	{
 		case ECoreMainPageType::MainMenu:
-			if (MainMenuPage)
-			{
-				RemovePage(MainMenuPage);
-				MainMenuPage = nullptr;
-			}
+			MainClass = Settings->MainMenuPage;
 			break;
 		case ECoreMainPageType::MainHUD:
-			if (MainHUDPage)
-			{
-				RemovePage(MainHUDPage);
-				MainHUDPage = nullptr;
-			}
+			MainClass = Settings->MainHUDPage;
 			break;
 		case ECoreMainPageType::PauseMenu:
-			if (PauseMenuPage)
-			{
-				RemovePage(PauseMenuPage);
-				PauseMenuPage = nullptr;
-			}
+			MainClass = Settings->PauseMenuPage;
 			break;
 	}
-}
-
-UCorePage* UUISubsystem::GetMainPage(ECoreMainPageType MainPageType)
-{
-	switch (MainPageType)
+	
+	UClass* Class = MainClass.Get();
+	for (IPageableWidgetInterface* Int : CoreWidgetsOpen)
 	{
-		case ECoreMainPageType::MainMenu:
-			return MainMenuPage;
-			break;
-		case ECoreMainPageType::MainHUD:
-			return MainHUDPage;
-			break;
-		case ECoreMainPageType::PauseMenu:
-			return PauseMenuPage;
-			break;
+		if (UCoreWidget* Widget = Cast<UCoreWidget>(Int))
+		{
+			if (Class && Widget->IsA(Class))
+			{
+				UE_VLOG_UELOG(this, LogUISubsystem, Log, TEXT("Found %s"), *Widget->GetName());
+				return Widget;
+			}
+		}
 	}
 
 	return nullptr;
+}
+
+bool UUISubsystem::ShouldDisablePlayerControllerInput()
+{
+	if (CoreWidgetsOpen.IsEmpty())
+	{
+		return false;
+	}
+
+	for (const IPageableWidgetInterface* Page : CoreWidgetsOpen)
+	{
+		if (Page->DisablePlayerControllerInput)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void UUISubsystem::SetPlayerControllerInput(APlayerController* PC, bool IsDisabled)
+{
+	if (!PC)
+	{
+		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Player Controller is invalid"));
+		return;
+	}
+
+	ACharacter* Character = PC->GetCharacter();
+	if (!Character)
+	{
+		UE_VLOG_UELOG(this, LogUISubsystem, Error, TEXT("Character is invalid"));
+		return;
+	}
+
+	IsDisabled ? Character->DisableInput(PC) : Character->EnableInput(PC);
 }
 
 void UUISubsystem::Initialize(FSubsystemCollectionBase& Collection)

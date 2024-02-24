@@ -43,46 +43,57 @@ void UCoreUiBlueprintFunctionLibrary::RemovePage(UCoreWidget* Widget, UCorePage*
 	}
 }
 
-void UCoreUiBlueprintFunctionLibrary::CreateMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType)
+void UCoreUiBlueprintFunctionLibrary::CreateMainHUD(UCoreWidget* Widget)
 {
 	if (!Widget)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemovePage - Widget is invalid"));
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::CreateMainHUD - Widget is invalid"));
 	}
 
 	if (UUISubsystem* UISubsystem = Widget->GetUISubsystem())
 	{
-		UISubsystem->CreateMainPage(MainPageType);
+		UISubsystem->CreateMainPage(ECoreMainPageType::MainHUD);
 	}
 }
 
-void UCoreUiBlueprintFunctionLibrary::RemoveMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType)
+void UCoreUiBlueprintFunctionLibrary::CreateMainMenu(UCoreWidget* Widget)
 {
 	if (!Widget)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::RemoveMainPage - Widget is invalid"));
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::CreateMainMenu - Widget is invalid"));
 	}
 
 	if (UUISubsystem* UISubsystem = Widget->GetUISubsystem())
 	{
-		UISubsystem->RemoveMainPage(MainPageType);
+		UISubsystem->CreateMainPage(ECoreMainPageType::MainMenu);
 	}
 }
 
-UCorePage* UCoreUiBlueprintFunctionLibrary::GetMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType)
+void UCoreUiBlueprintFunctionLibrary::CreatePauseMenu(UCoreWidget* Widget)
 {
 	if (!Widget)
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::GetMainPage - Widget is invalid"));
-		return nullptr;
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::CreatePauseMenu - Widget is invalid"));
 	}
 
-	UUISubsystem* UISubsystem = Widget->GetUISubsystem();
-	if (!UISubsystem)
+	if (UUISubsystem* UISubsystem = Widget->GetUISubsystem())
 	{
-		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::GetMainPage - Failed to get UISubsystem"));
-		return nullptr;
+		UISubsystem->CreateMainPage(ECoreMainPageType::PauseMenu);
+	}
+}
+
+bool UCoreUiBlueprintFunctionLibrary::GetMainPage(UCoreWidget* Widget, ECoreMainPageType CoreMainPageType, UCoreWidget*& OutCoreWidget)
+{
+	if (!Widget)
+	{
+		UE_VLOG_UELOG(Widget, LogCoreUiFunctionLibrary, Error, TEXT("UCoreUiBlueprintFunctionLibrary::CreatePauseMenu - Widget is invalid"));
 	}
 
-	return UISubsystem->GetMainPage(MainPageType);
+	if (UUISubsystem* UISubsystem = Widget->GetUISubsystem())
+	{
+		OutCoreWidget = UISubsystem->GetMainPage(CoreMainPageType);
+		return true;
+	}
+
+	return false;
 }

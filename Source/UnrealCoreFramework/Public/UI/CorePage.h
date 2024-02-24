@@ -30,6 +30,9 @@ protected:
 	UFUNCTION()
 	void Handle_OnExitButtonClicked();
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = CorePage, meta = (BindWidgetOptional))
+	bool DisablePlayerInput = true;
+	
 	UPROPERTY(BlueprintReadWrite, Category = CorePage, meta = (BindWidgetOptional))
 	UButton* ExitButton;
 

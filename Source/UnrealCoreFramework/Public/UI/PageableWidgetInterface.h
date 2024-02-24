@@ -23,4 +23,5 @@ class UNREALCOREFRAMEWORK_API IPageableWidgetInterface
 public:
 	virtual void Open();
 	virtual void Close();
+	bool DisablePlayerControllerInput;
 };

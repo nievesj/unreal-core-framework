@@ -24,13 +24,16 @@ class UNREALCOREFRAMEWORK_API UCoreUiBlueprintFunctionLibrary : public UBlueprin
 
 	UFUNCTION(BlueprintCallable, Category = CoreFrameworkUi, Meta = (DefaultToSelf = "Widget"))
 	static void RemovePage(UCoreWidget* Widget, UCorePage* Page);
+	
+	UFUNCTION(BlueprintCallable, Category = CoreFrameworkUi, Meta = (DefaultToSelf = "Widget"))
+	static void CreateMainHUD(UCoreWidget* Widget);
 
 	UFUNCTION(BlueprintCallable, Category = CoreFrameworkUi, Meta = (DefaultToSelf = "Widget"))
-	static void CreateMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType);
+	static void CreateMainMenu(UCoreWidget* Widget);
 
 	UFUNCTION(BlueprintCallable, Category = CoreFrameworkUi, Meta = (DefaultToSelf = "Widget"))
-	static void RemoveMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType);
+	static void CreatePauseMenu(UCoreWidget* Widget);
 
 	UFUNCTION(BlueprintCallable, Category = CoreFrameworkUi, Meta = (DefaultToSelf = "Widget"))
-	static UCorePage* GetMainPage(UCoreWidget* Widget, ECoreMainPageType MainPageType);
+	static bool GetMainPage(UCoreWidget* Widget, ECoreMainPageType CoreMainPageType, UCoreWidget*& OutCoreWidget);
 };
