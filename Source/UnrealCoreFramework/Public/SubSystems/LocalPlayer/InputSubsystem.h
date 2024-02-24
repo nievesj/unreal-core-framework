@@ -4,16 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "SubSystems/Base/CoreLocalPlayerSubsystem.h"
+
 #include "InputSubsystem.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class UNREALCOREFRAMEWORK_API UInputSubsystem : public UCoreLocalPlayerSubsystem
 {
 	GENERATED_BODY()
-	
+
 private:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;

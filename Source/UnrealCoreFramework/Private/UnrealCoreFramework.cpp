@@ -16,5 +16,5 @@ void FUnrealCoreFrameworkModule::ShutdownModule()
 }
 
 #undef LOCTEXT_NAMESPACE
-	
+
 IMPLEMENT_MODULE(FUnrealCoreFrameworkModule, UnrealCoreFramework)

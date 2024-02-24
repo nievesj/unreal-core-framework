@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/AudioEngineSubsystem.h"
+
 #include "CoreAudioEngineSubSystem.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogAudioSubsystem, Log, All);
@@ -18,8 +19,10 @@ class UNREALCOREFRAMEWORK_API UCoreAudioEngineSubSystem : public UAudioEngineSub
 {
 	GENERATED_BODY()
 public:
-	
-	virtual bool ShouldCreateSubsystem(UObject* Outer) const { return true; }
+	virtual bool ShouldCreateSubsystem(UObject* Outer) const
+	{
+		return true;
+	}
 
 	/** Implement this for initialization of instances of the system */
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;

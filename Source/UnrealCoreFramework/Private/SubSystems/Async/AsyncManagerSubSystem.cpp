@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "SubSystems/Async/AsyncManagerSubSystem.h"
 
 void UAsyncManagerSubSystem::Initialize(FSubsystemCollectionBase& Collection)
@@ -11,7 +10,7 @@ void UAsyncManagerSubSystem::Initialize(FSubsystemCollectionBase& Collection)
 
 bool UAsyncManagerSubSystem::Tick(float DeltaSeconds)
 {
-	//Add an array of tasks, then iterate
+	// Add an array of tasks, then iterate
 	return true;
 }
 

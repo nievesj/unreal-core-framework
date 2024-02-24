@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameState.h"
+
 #include "CoreGameState.generated.h"
 
 class UServiceLocator;
 /**
- * 
+ *
  */
 UCLASS()
 class UNREALCOREFRAMEWORK_API ACoreGameState : public AGameStateBase
@@ -16,7 +17,7 @@ class UNREALCOREFRAMEWORK_API ACoreGameState : public AGameStateBase
 	GENERATED_UCLASS_BODY()
 public:
 	virtual void ReceivedGameModeClass() override;
-	
+
 protected:
 	virtual void PostInitializeComponents() override;
 

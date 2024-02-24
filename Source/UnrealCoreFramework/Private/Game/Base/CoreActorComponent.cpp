@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Game/Base/CoreActorComponent.h"
 
 // Sets default values for this component's properties
@@ -13,16 +12,13 @@ UCoreActorComponent::UCoreActorComponent()
 	// ...
 }
 
-
 // Called when the game starts
 void UCoreActorComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
 	// ...
-	
 }
-
 
 // Called every frame
 void UCoreActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -31,4 +27,3 @@ void UCoreActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 	// ...
 }
-

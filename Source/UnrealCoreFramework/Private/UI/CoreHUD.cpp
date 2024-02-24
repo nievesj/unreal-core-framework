@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "UI/CoreHUD.h"
 
 void ACoreHUD::ShowMainHUD()
@@ -9,16 +8,16 @@ void ACoreHUD::ShowMainHUD()
 
 	// Make widget owned by our PlayerController
 	APlayerController* PC = Cast<APlayerController>(GetOwner());
-	MainBlade = CreateWidget<UCoreWidget>(PC, MainBladeClass);
+	MainPage = CreateWidget<UCoreWidget>(PC, MainPageClass);
 
-	MainBlade->AddToViewport();
+	MainPage->AddToViewport();
 }
 
 void ACoreHUD::HideMainHUD()
 {
-	if (MainBlade)
+	if (MainPage)
 	{
-		MainBlade->RemoveFromParent();
-		MainBlade = nullptr;
+		MainPage->RemoveFromParent();
+		MainPage = nullptr;
 	}
 }

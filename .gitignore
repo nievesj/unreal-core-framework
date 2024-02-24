@@ -123,6 +123,7 @@
 !FAQ
 !VERSION
 !ChangeLog
+!.clang-format
 
 # Ignore Unix backup files
 *~
@@ -199,6 +200,10 @@
 # Add Horde dockerfiles
 !/Engine/Source/Programs/Horde/**/Dockerfile
 
+# Add Plugin Directories
+!/Content/**
+!/Resources/**
+
 # Ignore NET binaries
 /Engine/Binaries/ThirdParty/DotNet/
 /Engine/Binaries/DotNET/UnrealBuildTool/
@@ -250,7 +255,7 @@ Engine/Binaries/Android/packageInfo.txt
 enc_temp_folder/
 
 # Ignore content folders
-Content/
+# Content/
 
 # Ignore DDC
 /Engine/DerivedDataCache/**

@@ -9,12 +9,12 @@ This is a Plugin for Unreal Engine 5.3 and it's purpose is to help speed up deve
 
 * Planned Features
 	* UI SubSystem - Centralized place where menus are created and tracked
-	 	* Base set of classes to define menu widgets named Blades
+	 	* Base set of classes to define menu widgets named Page
 	  	* Base intro/outro animation control using ([UE-BUITween](https://github.com/benui-dev/UE-BUITween)) or Widget Animations
 	* Next System: Object Pooling System
  		* Spawner Actor
    		* Spawner Volume
      	* Factory
-	* Sample proyect
+	* Sample project
   	    
 

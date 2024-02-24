@@ -2,6 +2,7 @@
 
 #include "BUIEasing.h"
 #include "Components/Widget.h"
+
 #include "BUITweenInstance.generated.h"
 
 DECLARE_DELEGATE_OneParam(FBUITweenSignature, UWidget* /*Owner*/);
@@ -15,7 +16,10 @@ class TBUITweenProp
 public:
 	bool bHasStart = false;
 	bool bHasTarget = false;
-	inline bool IsSet() const { return bHasStart || bHasTarget; }
+	inline bool IsSet() const
+	{
+		return bHasStart || bHasTarget;
+	}
 	T StartValue;
 	T TargetValue;
 	T CurrentValue;
@@ -59,7 +63,10 @@ class TBUITweenInstantProp
 public:
 	bool bHasStart = false;
 	bool bHasTarget = false;
-	inline bool IsSet() const { return bHasStart || bHasTarget; }
+	inline bool IsSet() const
+	{
+		return bHasStart || bHasTarget;
+	}
 	T StartValue;
 	T TargetValue;
 	T CurrentValue;
@@ -104,7 +111,6 @@ public:
 	}
 };
 
-
 USTRUCT()
 struct BUITWEEN_API FBUITweenInstance
 {
@@ -129,7 +135,10 @@ public:
 		return pWidget == other.pWidget;
 	}
 
-	bool IsComplete() const { return bIsComplete; }
+	bool IsComplete() const
+	{
+		return bIsComplete;
+	}
 
 	// EasingParam is used for easing functions that have a second parameter, like Elastic
 	FBUITweenInstance& Easing(EBUIEasingType InType, TOptional<float> InEasingParam = TOptional<float>())
@@ -247,7 +256,6 @@ public:
 		return *this;
 	}
 
-
 	FBUITweenInstance& ToVisibility(ESlateVisibility InTarget)
 	{
 		VisibilityProp.SetTarget(InTarget);
@@ -294,7 +302,10 @@ public:
 		return *this;
 	}
 
-	TWeakObjectPtr<UWidget> GetWidget() const { return pWidget; }
+	TWeakObjectPtr<UWidget> GetWidget() const
+	{
+		return pWidget;
+	}
 
 	void DoCompleteCleanup()
 	{
@@ -324,7 +335,7 @@ protected:
 	TBUITweenProp<float> OpacityProp;
 	TBUITweenProp<float> RotationProp;
 	TBUITweenProp<FVector2D> CanvasPositionProp;
-	TBUITweenProp<FVector4> PaddingProp; // FVector4 because FMath::Lerp does not support FMargin
+	TBUITweenProp<FVector4> PaddingProp;	// FVector4 because FMath::Lerp does not support FMargin
 	TBUITweenInstantProp<ESlateVisibility> VisibilityProp;
 	TBUITweenProp<float> MaxDesiredHeightProp;
 

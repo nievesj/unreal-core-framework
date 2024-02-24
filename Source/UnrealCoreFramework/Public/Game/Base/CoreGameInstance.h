@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+
 #include "CoreGameInstance.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogCoreGameInstance, Log, All);

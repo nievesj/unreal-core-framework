@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameSession.h"
+
 #include "CoreGameSession.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class UNREALCOREFRAMEWORK_API ACoreGameSession : public AGameSession
 {
 	GENERATED_BODY()
-	
 };

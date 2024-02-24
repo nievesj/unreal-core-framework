@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/EngineSubsystem.h"
+
 #include "CoreEngineSubsystem.generated.h"
 
 /**
@@ -23,9 +24,12 @@ UCLASS(Abstract)
 class UNREALCOREFRAMEWORK_API UCoreEngineSubsystem : public UEngineSubsystem
 {
 	GENERATED_BODY()
-	
+
 public:
-	virtual bool ShouldCreateSubsystem(UObject* Outer) const override { return true; }
+	virtual bool ShouldCreateSubsystem(UObject* Outer) const override
+	{
+		return true;
+	}
 
 	/** Implement this for initialization of instances of the system */
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;

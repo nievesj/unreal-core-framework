@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Game/Base/CoreGameInstance.h"
 
 #include "Engine/LocalPlayer.h"
@@ -19,7 +18,7 @@ void UCoreGameInstance::Init()
 {
 	Super::Init();
 
-	//OnLocalPlayerAddedEvent.AddUObject(this, &UCoreGameInstance::OnLocalPlayerAdded);
+	// OnLocalPlayerAddedEvent.AddUObject(this, &UCoreGameInstance::OnLocalPlayerAdded);
 }
 
 void UCoreGameInstance::OnStart()
@@ -32,7 +31,7 @@ void UCoreGameInstance::OnStart()
 		if (const ULocalPlayer* LocalPlayer = PC->GetLocalPlayer())
 		{
 			UUISubsystem* UISubsystem = LocalPlayer->GetSubsystem<UUISubsystem>();
-			UISubsystem->CreateMainBlade(ECoreMainBladeType::MainHUD);
+			UISubsystem->CreateMainPage(ECoreMainPageType::MainHUD);
 			UE_VLOG_UELOG(this, LogCoreGameInstance, Log, TEXT("Created MainMenu"));
 		}
 	}
@@ -55,7 +54,7 @@ void UCoreGameInstance::FinishDestroy()
 void UCoreGameInstance::Shutdown()
 {
 	Super::Shutdown();
-	//OnLocalPlayerAddedEvent.RemoveAll(this);
+	// OnLocalPlayerAddedEvent.RemoveAll(this);
 }
 
 FGameInstancePIEResult UCoreGameInstance::StartPlayInEditorGameInstance(ULocalPlayer* LocalPlayer, const FGameInstancePIEParameters& Params)
@@ -65,10 +64,9 @@ FGameInstancePIEResult UCoreGameInstance::StartPlayInEditorGameInstance(ULocalPl
 	if (LocalPlayer)
 	{
 		UUISubsystem* UISubsystem = LocalPlayer->GetSubsystem<UUISubsystem>();
-		UISubsystem->CreateMainBlade(ECoreMainBladeType::MainHUD);
+		UISubsystem->CreateMainPage(ECoreMainPageType::MainHUD);
 		UE_VLOG_UELOG(this, LogCoreGameInstance, Log, TEXT("Created MainMenu"));
 	}
-
 
 	return Result;
 }

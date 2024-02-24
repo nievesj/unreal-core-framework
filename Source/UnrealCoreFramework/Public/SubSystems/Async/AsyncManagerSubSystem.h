@@ -2,13 +2,14 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Containers/Ticker.h"
+#include "CoreMinimal.h"
 #include "SubSystems/Base/CoreGameInstanceSubsystem.h"
+
 #include "AsyncManagerSubSystem.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class UNREALCOREFRAMEWORK_API UAsyncManagerSubSystem : public UCoreGameInstanceSubsystem
@@ -16,11 +17,11 @@ class UNREALCOREFRAMEWORK_API UAsyncManagerSubSystem : public UCoreGameInstanceS
 	GENERATED_BODY()
 
 	FTSTicker::FDelegateHandle TickHandler;
-	
+
 	bool Tick(float DeltaSeconds);
 
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
-	
+
 	/** Implement this for deinitialization of instances of the system */
 	virtual void Deinitialize() override;
 };

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+
 #include "CoreGameInstanceSubsystem.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogGameInstanceSubsystem, Log, All);
@@ -18,7 +19,10 @@ class UNREALCOREFRAMEWORK_API UCoreGameInstanceSubsystem : public UGameInstanceS
 	GENERATED_BODY()
 
 public:
-	virtual bool ShouldCreateSubsystem(UObject* Outer) const { return true; }
+	virtual bool ShouldCreateSubsystem(UObject* Outer) const
+	{
+		return true;
+	}
 
 	virtual void PreInitialize();
 

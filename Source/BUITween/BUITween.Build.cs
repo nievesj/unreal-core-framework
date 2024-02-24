@@ -9,17 +9,19 @@ public class BUITween : ModuleRules
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicIncludePaths.AddRange(
-			new string[] {
+			new string[]
+			{
 				// ... add public include paths required here ...
 			}
 		);
-		
+
 		PrivateIncludePaths.AddRange(
-			new string[] {
+			new string[]
+			{
 				// ... add other private include paths required here ...
 			}
 		);
-		
+
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
@@ -38,7 +40,7 @@ public class BUITween : ModuleRules
 				"SlateCore",
 			}
 		);
-		
+
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]
 			{

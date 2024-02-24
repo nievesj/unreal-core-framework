@@ -1,14 +1,14 @@
 #include "BUITweenInstance.h"
 
-#include "Components/Widget.h"
-#include "Components/Image.h"
+#include "Blueprint/UserWidget.h"
 #include "Components/Border.h"
 #include "Components/CanvasPanelSlot.h"
-#include "Components/OverlaySlot.h"
-#include "Components/VerticalBoxSlot.h"
 #include "Components/HorizontalBoxSlot.h"
+#include "Components/Image.h"
+#include "Components/OverlaySlot.h"
 #include "Components/SizeBox.h"
-#include "Blueprint/UserWidget.h"
+#include "Components/VerticalBoxSlot.h"
+#include "Components/Widget.h"
 
 DEFINE_LOG_CATEGORY(LogBUITween);
 
@@ -20,7 +20,7 @@ void FBUITweenInstance::Begin()
 
 	if (!pWidget.IsValid())
 	{
-		UE_LOG(LogBUITween, Warning, TEXT( "Trying to start invalid widget" ));
+		UE_LOG(LogBUITween, Warning, TEXT("Trying to start invalid widget"));
 		return;
 	}
 
@@ -187,7 +187,8 @@ void FBUITweenInstance::Apply(float EasedAlpha)
 		if (CanvasPositionProp.Update(EasedAlpha))
 		{
 			UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(pWidget->Slot);
-			if (CanvasSlot) CanvasSlot->SetPosition(CanvasPositionProp.CurrentValue);
+			if (CanvasSlot)
+				CanvasSlot->SetPosition(CanvasPositionProp.CurrentValue);
 		}
 	}
 	if (PaddingProp.IsSet())
@@ -197,9 +198,12 @@ void FBUITweenInstance::Apply(float EasedAlpha)
 			UOverlaySlot* OverlaySlot = Cast<UOverlaySlot>(pWidget->Slot);
 			UHorizontalBoxSlot* HorizontalBoxSlot = Cast<UHorizontalBoxSlot>(pWidget->Slot);
 			UVerticalBoxSlot* VerticalBoxSlot = Cast<UVerticalBoxSlot>(pWidget->Slot);
-			if (OverlaySlot) OverlaySlot->SetPadding(PaddingProp.CurrentValue);
-			else if (HorizontalBoxSlot) HorizontalBoxSlot->SetPadding(PaddingProp.CurrentValue);
-			else if (VerticalBoxSlot) VerticalBoxSlot->SetPadding(PaddingProp.CurrentValue);
+			if (OverlaySlot)
+				OverlaySlot->SetPadding(PaddingProp.CurrentValue);
+			else if (HorizontalBoxSlot)
+				HorizontalBoxSlot->SetPadding(PaddingProp.CurrentValue);
+			else if (VerticalBoxSlot)
+				VerticalBoxSlot->SetPadding(PaddingProp.CurrentValue);
 		}
 	}
 	if (MaxDesiredHeightProp.IsSet())
