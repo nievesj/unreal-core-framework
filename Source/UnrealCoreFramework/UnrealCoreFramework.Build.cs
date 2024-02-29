@@ -40,6 +40,7 @@ public class UnrealCoreFramework : ModuleRules
 				"UnrealEd",
 				"Json",
 				"JsonUtilities",
+				"EnhancedInput",
 
 				// ... add other public dependencies that you statically link with here ...
 			}

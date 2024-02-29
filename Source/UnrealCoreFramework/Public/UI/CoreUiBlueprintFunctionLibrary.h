@@ -8,9 +8,10 @@
 #include "CoreUiBlueprintFunctionLibrary.generated.h"
 
 class UCorePage;
+class UCoreWidget;
+
 DECLARE_LOG_CATEGORY_EXTERN(LogCoreUiFunctionLibrary, Log, All);
 
-class UCoreWidget;
 /**
  Blueprint library for the Core Framework UI System
  */
