@@ -36,7 +36,7 @@ void UCoreInputSubsystem::HandleOnHardwareInputDeviceChanged(const FPlatformUser
 			// XInputController
 			// Dualsense
 			const FHardwareDeviceIdentifier& HardwareDeviceIdentifier = InputDeviceSubsystem->GetMostRecentlyUsedHardwareDevice(UserId);
-			ECoreInputDeviceType CoreInputDeviceType = DetermineControllerType(HardwareDeviceIdentifier);
+			const ECoreInputDeviceType CoreInputDeviceType = DetermineControllerType(HardwareDeviceIdentifier);
 			if(OnCoreInputDeviceChanged.IsBound())
 			{
 				OnCoreInputDeviceChanged.Broadcast(CoreInputDeviceType);
@@ -44,6 +44,9 @@ void UCoreInputSubsystem::HandleOnHardwareInputDeviceChanged(const FPlatformUser
 
 			UE_LOG(LogTemp, Log, TEXT("DeviceId %d | UserId %d | PrimaryDeviceType %s"), DeviceId.GetId(), UserId.GetInternalId(), *UEnum::GetValueAsString(HardwareDeviceIdentifier.PrimaryDeviceType));
 		}
+
+		//UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent);
+		//  EnhancedInputComponent->RemoveBindingByHandle(m_GoBackActionBindingHandle);
 	}
 }
 
@@ -54,7 +57,7 @@ ECoreInputDeviceType UCoreInputSubsystem::DetermineControllerType(const FHardwar
 		case EHardwareDevicePrimaryType::KeyboardAndMouse:
 			return ECoreInputDeviceType::KeyboardMouse;
 		case EHardwareDevicePrimaryType::Gamepad:
-			return ECoreInputDeviceType::XboxGamePad; //Default gamepad for now
+			return ECoreInputDeviceType::Gamepad; 
 		default:
 			return ECoreInputDeviceType::KeyboardMouse;
 	}

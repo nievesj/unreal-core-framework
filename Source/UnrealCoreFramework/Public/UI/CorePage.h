@@ -11,7 +11,7 @@
 class UButton;
 class UUISubsystem;
 
-UCLASS(Abstract, editinlinenew, BlueprintType, Blueprintable, meta = (DontUseGenericSpawnObject = "True", DisableNativeTick))
+UCLASS(Abstract, Blueprintable, ClassGroup = UI, meta = (Category = "Core Framework UI", DisableNativeTick))
 class UNREALCOREFRAMEWORK_API UCorePage : public UCoreWidget, public IPageableWidgetInterface
 {
 public:

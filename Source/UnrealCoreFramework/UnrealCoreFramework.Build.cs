@@ -35,7 +35,7 @@ public class UnrealCoreFramework : ModuleRules
 				"InputCore",
 				"Slate",
 				"UMG",
-				//"CommonUI",
+				"CommonUI",
 				"EditorSubsystem",
 				"UnrealEd",
 				"Json",

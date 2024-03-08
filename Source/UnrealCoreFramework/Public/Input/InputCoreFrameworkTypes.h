@@ -7,6 +7,7 @@
 
 #include "InputCoreFrameworkTypes.generated.h"
 
+class UInputAction;
 class UTexture2D;
 
 UENUM(BlueprintType)
@@ -24,6 +25,15 @@ struct FInputImageDefinitionRow : public FCoreTableRowBase
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = WidgetTransitionOptions)
-	TSoftObjectPtr<UTexture2D> Icon; //Add an async image loader
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText Description;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSoftObjectPtr<UTexture2D> Icon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSoftObjectPtr<UInputAction> InputAction;
 };

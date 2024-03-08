@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Blueprint/UserWidget.h"
+#include "CommonUserWidget.h"
 #include "CoreMinimal.h"
 #include "UiCoreFrameworkTypes.h"
 
@@ -13,8 +14,8 @@ class UUISubsystem;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogCoreWidget, Log, All);
 
-UCLASS(Abstract, editinlinenew, BlueprintType, Blueprintable, meta = (DontUseGenericSpawnObject = "True", DisableNativeTick))
-class UNREALCOREFRAMEWORK_API UCoreWidget : public UUserWidget
+UCLASS(Abstract, Blueprintable, ClassGroup = UI, meta = (Category = "Core Framework UI", DisableNativeTick))
+class UNREALCOREFRAMEWORK_API UCoreWidget : public UCommonUserWidget
 {
 	GENERATED_BODY()
 
